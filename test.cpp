@@ -3,11 +3,8 @@
 
 int main(void)
 {
-    char *name = "Cherno";
-    name[2] -= 2;
-    std::cout << name;
-    // std::vector<int> vec1;
-    // std::vector<std::string> vec2;
+    std::vector<int> vec1;
+    std::vector<std::string> vec2;
 
     // vec1.assign();
     // vec1.at();
