@@ -1,6 +1,7 @@
+#include <memory>
 namespace ft
 {
-    template <typename T>
+    template <typename T, std::allocator<T> _allocator>
     class vector
     {
     public:
