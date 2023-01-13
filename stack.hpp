@@ -18,6 +18,12 @@ template <typename T>
 		template <class... Args> void emplace (Args&&... args);
 		void pop(void);
 		void swap(stack &x) noexcept;
+		template <class T, class Container>  bool operator== (const stack<T,Container>& lhs, const stack<T,Container>& rhs);	
+		template <class T, class Container>  bool operator!= (const stack<T,Container>& lhs, const stack<T,Container>& rhs);
+		template <class T, class Container>  bool operator<  (const stack<T,Container>& lhs, const stack<T,Container>& rhs);
+		template <class T, class Container>  bool operator<= (const stack<T,Container>& lhs, const stack<T,Container>& rhs);
+		template <class T, class Container>  bool operator>  (const stack<T,Container>& lhs, const stack<T,Container>& rhs);
+		template <class T, class Container>  bool operator>= (const stack<T,Container>& lhs, const stack<T,Container>& rhs);
 	private:
 		std::vector<T> container;
 		size_t _size;
