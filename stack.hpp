@@ -3,7 +3,7 @@
 
 namespace ft
 {
-template <typename T>
+template <typename T, class container = std::vector<T> >
 	class stack
 	{
 	public:
@@ -24,19 +24,19 @@ template <typename T>
 		template <class T, class Container>  bool operator<= (const stack<T,Container>& lhs, const stack<T,Container>& rhs);
 		template <class T, class Container>  bool operator>  (const stack<T,Container>& lhs, const stack<T,Container>& rhs);
 		template <class T, class Container>  bool operator>= (const stack<T,Container>& lhs, const stack<T,Container>& rhs);
-	private:
+	protected:
 		std::vector<T> container;
 		size_t _size;
 	};
 
-	template <typename T>
-	stack<T>::stack()
+	template <typename T, class container>
+	stack<T, container>::stack()
 	{
 
 	}
 
-	template <typename T>
-	stack<T>::stack(const ft::stack<T> &otherStack)
+	template <typename T, class container = std::vector<T> >
+	stack<T, container>::stack(const ft::stack<T> &otherStack)
 	{
 		this->container = otherStack.container;
 	}
