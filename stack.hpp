@@ -90,7 +90,7 @@ template <typename T, class container = std::vector<T> >
 	}
 
 	template <typename T, class container>
-	void stack<T, container>::swap(stack &x)
+	void stack<T, container>::swap(stack &x) noexcept
 	{
 
 	}
