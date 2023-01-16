@@ -2,10 +2,6 @@
 #include <vector>
 
 
-// value_type	T
-// allocator_type	Allocator
-// size_type	Unsigned integer type (usually std::size_t)
-// difference_type	Signed integer type (usually std::ptrdiff_t)
 // reference	value_type&
 // const_reference	const value_type&
 // pointer	 
@@ -34,13 +30,26 @@
  
 // reverse_iterator	std::reverse_iterator<iterator>
 // const_reverse_iterator	std::reverse_iterator<const_iterator>
+using std::size_t;
+using std::ptrdiff_t;
 namespace ft
 {
-    template <typename T, typename _allocator = std::allocator<T> >
+    template <typename T, typename Allocator = std::allocator<T> >
     class vector
     {
     public:
-        
+        typedef Allocator               				allocator_type;
+        typedef size_t                  				size_type;
+        typedef T                       				value_type;
+        typedef ptrdiff_t 								difference_type;
+        typedef value_type& 							reference;
+        typedef const value_type&						const_reference;
+        typedef Allocator::pointer						pointer;
+        typedef Allocator::const_pointer				const_pointer;
+        typedef value_type* 							iterator;
+        typedef const value_type*						const_iterator;
+		typedef std::reverse_iterator<iterator>			reverse_iterator;
+		typedef std::reverse_iterator<const_iterator>	const_reverse_iterator;
     private:
         T *elem;
         size_t _size;
