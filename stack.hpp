@@ -1,9 +1,11 @@
 #include <memory>
-#include <vector>
+#include "vector.hpp"
+#include <stack>
 
 namespace ft
 {
-template <typename T, class _Container = std::vector<T> >
+
+template <typename T, class _Container = ft::vector<T> >
 	class stack
 	{
 	public:
