@@ -1,10 +1,12 @@
 #include <vector>
 #include <iostream>
 #include "stack.hpp"
+#include <stack>
 
 int main(void)
 {
     ft::stack<int> st;
+    ft::stack<int> st3;
 
     st.push(1);
     st.push(2);
@@ -14,5 +16,8 @@ int main(void)
 
     std::cout << st.size() << std::endl;
     std::cout << st2.size() << std::endl;
+
+    std::cout << (st == st2) << std::endl;
+    std::cout << (st == st3) << std::endl;
     return 0;
 }
