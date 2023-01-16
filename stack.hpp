@@ -15,77 +15,49 @@ template <typename T, class _Container = std::vector<T> >
 	protected:
 		container_type c;
 	public:
-		stack<T>();
-		stack<T>(const ft::stack<T> &otherStack);
-		~stack();
-		bool empty(void) const;
-		size_t size(void) const;
-		T &top(void);
-		const T &top() const;
-		void push(const T &val);
-		template <class... Args> void emplace (Args&&... args);
-		void pop(void);
-		void swap(stack &x) noexcept;
+		stack(): c() {};
+		stack(const stack &otherStack) {c = otherStack.c;};
+		~stack() {};
+		stack &operator=(const stack &rhs)
+		{
+			c = rhs.c;
+			return *this;
+		}
 
-	stack()
-	{
+		bool empty(void) const
+		{
+			return c.empty();
+		}
 
-	}
+		size_t size(void) const
+		{
+			return c.size();
+		}
 
-	stack(const ft::stack<T> &otherStack)
-	{
-		this->c = otherStack.c;
-	}
+		T &top(void)
+		{
+			return c.back();
+		}
 
-	~stack()
-	{
-		c.clear();
-	}
-	
-	bool empty(void) const
-	{
-		return c.empty();
-	}
+		const T &top() const
+		{
+			return c.back();
+		}
 
-	size_t size(void) const
-	{
-		return c.size();
-	}
+		void push(const T &val)
+		{
+			c.push_back(val);
+		}
 
-	T &top(void)
-	{
-		return c.back();
-	}
+		void pop(void)
+		{
+			c.pop_back();
+		}
 
-	const T &top(void) const
-	{
-		return c.back();
-	}
-
-	void push(const T &val)
-	{
-		c.push_back(val);
-	}
-
-	template <class... Args>
-	template <class... Args> emplace (Args&&... args)
-	{
-		return (c.emplace_back(std::forward<Args>(args)...);
-	}
-
-	void pop(void)
-	{
-		c.pop_back();
-	}
-
-	void swap(stack &x)
-	{
-		std::swap(c, x.c);
-	}
-	template <class T1, class C1>
-	friend bool operator== (const stack<T1, C1>& lhs, const stack<T1, C1>& rhs);	
-	template <class T1, class C1>
-	friend bool operator<  (const stack<T1, C1>& lhs, const stack<T1, C1>& rhs);
+		template <class T1, class C1>
+		friend bool operator== (const stack<T1, C1>& lhs, const stack<T1, C1>& rhs);	
+		template <class T1, class C1>
+		friend bool operator<  (const stack<T1, C1>& lhs, const stack<T1, C1>& rhs);
 	};
 
 	template <class T, class _Container>
@@ -109,7 +81,7 @@ template <typename T, class _Container = std::vector<T> >
 	template <class T, class _Container>
 	bool operator<= (const stack<T, _Container>& lhs, const stack<T, _Container>& rhs)
 	{
-		return !(rhs < lhs)
+		return !(rhs < lhs);
 	}
 
 	template <class T, class _Container>

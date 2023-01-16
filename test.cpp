@@ -1,41 +1,18 @@
 #include <vector>
 #include <iostream>
+#include "stack.hpp"
 
 int main(void)
 {
-    std::vector<int> vec1;
-    std::vector<std::string> vec2;
+    ft::stack<int> st;
 
-    // vec1.assign();
-    // vec1.at();
-    // vec1.back();
-    // vec1.begin();
-    // vec1.capacity();
-    // vec1.cbegin();
-    // vec1.cend();
-    // vec1.clear();
-    // vec1.crbegin();
-    // vec1.crend();
-    // vec1.data();
-    // vec1.emplace();
-    // vec1.emplace_back();
-    // vec1.empty();
-    // vec1.end();
-    // vec1.erase();
-    // vec1.front();
-    // vec1.get_allocator();
-    // vec1.insert();
-    // vec1.max_size();
-    // vec1.operator=();
-    // vec1.operator[];
-    // vec1.pop_back();
-    // vec1.push_back();
-    // vec1.rbegin();
-    // vec1.rend();
-    // vec1.reserve();
-    // vec1.resize();
-    // vec1.shrink_to_fit();
-    // vec1.size();
-    // vec1.swap();
+    st.push(1);
+    st.push(2);
+    st.push(3);
+
+    ft::stack<int> st2 = st;
+
+    std::cout << st.size() << std::endl;
+    std::cout << st2.size() << std::endl;
     return 0;
 }
