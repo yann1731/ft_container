@@ -3,9 +3,17 @@
 
 namespace ft
 {
-template <typename T, class container = std::vector<T> >
+template <typename T, class _Container = std::vector<T> >
 	class stack
 	{
+	public:
+    	typedef _Container                               container_type;
+    	typedef typename container_type::value_type      value_type;
+    	typedef typename container_type::reference       reference;
+    	typedef typename container_type::const_reference const_reference;
+    	typedef typename container_type::size_type       size_type;
+	protected:
+		container_type c;
 	public:
 		stack<T>();
 		stack<T>(const ft::stack<T> &otherStack);
@@ -18,80 +26,101 @@ template <typename T, class container = std::vector<T> >
 		template <class... Args> void emplace (Args&&... args);
 		void pop(void);
 		void swap(stack &x) noexcept;
-		template <class T, class Container>  bool operator== (const stack<T,Container>& lhs, const stack<T,Container>& rhs);	
-		template <class T, class Container>  bool operator!= (const stack<T,Container>& lhs, const stack<T,Container>& rhs);
-		template <class T, class Container>  bool operator<  (const stack<T,Container>& lhs, const stack<T,Container>& rhs);
-		template <class T, class Container>  bool operator<= (const stack<T,Container>& lhs, const stack<T,Container>& rhs);
-		template <class T, class Container>  bool operator>  (const stack<T,Container>& lhs, const stack<T,Container>& rhs);
-		template <class T, class Container>  bool operator>= (const stack<T,Container>& lhs, const stack<T,Container>& rhs);
-	protected:
-		container<T> _container;
-		size_t _size;
-	};
 
-	template <typename T, class container>
-	stack<T, container>::stack()
+	stack()
 	{
 
 	}
 
-	template <typename T, class container>
-	stack<T, container>::stack(const ft::stack<T> &otherStack)
+	stack(const ft::stack<T> &otherStack)
 	{
-		this->container = otherStack.container;
+		this->c = otherStack.c;
 	}
 
-	template <typename T, class container>
-	stack<T, container>::~stack()
+	~stack()
 	{
-		
+		c.clear();
 	}
 	
-	template <typename T, class container>
-	bool stack<T, container>::empty(void) const
+	bool empty(void) const
 	{
-
+		return c.empty();
 	}
 
-	template <typename T, class container>
-	size_t stack<T, container>::size(void) const
+	size_t size(void) const
 	{
-
+		return c.size();
 	}
 
-	template <typename T, class container>
-	T &stack<T, container>::top(void)
+	T &top(void)
 	{
-
+		return c.back();
 	}
 
-	template <typename T, class container>
-	const T &stack<T, container>::top(void) const
+	const T &top(void) const
 	{
-
+		return c.back();
 	}
 
-	template <typename T, class container>
-	void stack<T, container>::push(const T &val)
+	void push(const T &val)
 	{
-
+		c.push_back(val);
 	}
 
-	template <typename T, class container>
-	template <class... Args> void stack<T, container>::emplace (Args&&... args)
+	template <class... Args>
+	template <class... Args> emplace (Args&&... args)
 	{
-
+		return (c.emplace_back(std::forward<Args>(args)...);
 	}
 
-	template <typename T, class container>
-	void stack<T, container>::pop(void)
+	void pop(void)
 	{
-
+		c.pop_back();
 	}
 
-	template <typename T, class container>
-	void stack<T, container>::swap(stack &x)
+	void swap(stack &x)
 	{
-
+		std::swap(c, x.c);
 	}
-}
+	template <class T1, class C1>
+	friend bool operator== (const stack<T1, C1>& lhs, const stack<T1, C1>& rhs);	
+	template <class T1, class C1>
+	friend bool operator<  (const stack<T1, C1>& lhs, const stack<T1, C1>& rhs);
+	};
+
+	template <class T, class _Container>
+	bool operator==(const stack<T, _Container>& lhs, const stack<T, _Container>& rhs)
+	{
+		return lhs.c == rhs.c;
+	}
+
+	template <class T, class _Container>
+	bool operator<(const stack<T, _Container>& lhs, const stack<T, _Container>& rhs)
+	{
+		return lhs.c < rhs.c;
+	}
+
+	template <class T, class _Container>
+	bool operator!= (const stack<T, _Container>& lhs, const stack<T, _Container>& rhs)
+	{
+		return !(lhs == rhs);
+	}
+
+	template <class T, class _Container>
+	bool operator<= (const stack<T, _Container>& lhs, const stack<T, _Container>& rhs)
+	{
+		return !(rhs < lhs)
+	}
+
+	template <class T, class _Container>
+	bool operator>  (const stack<T, _Container>& lhs, const stack<T, _Container>& rhs)
+	{
+		return rhs < lhs;
+	}
+
+	template <class T, class _Container>
+	bool operator>= (const stack<T, _Container>& lhs, const stack<T, _Container>& rhs)
+	{
+		return !(lhs < rhs);
+	}
+};
