@@ -2,9 +2,12 @@
 #include <iostream>
 #include "stack.hpp"
 #include <stack>
+#include <iterator>
+#include <algorithm>
 
 int main(void)
 {
+    
     ft::stack<int> st;
     ft::stack<int> st3;
 

@@ -1,5 +1,24 @@
 #include <memory>
-#include <vector>
+#include <iterator>
+
+template <typename T, class Allocator>
+class _base_vector
+{
+public:
+    typedef Allocator                           allocator_type;
+    typedef allocator_traits<allocator_type>    _alloc_traits;
+    typedef typename _alloc_traits::size_type   size_type;
+protected:
+    using  value_type = T;
+    using reference = value_type&;
+    using const_reference = const value_type&;;
+    using difference_type = typename __alloc_traits::difference_type;
+    using pointer = typename __alloc_traits::pointer;
+    using const_pointer = typename __alloc_traits::const_pointer;
+    using iterator = pointer;
+    using const_iterator = const_pointer;
+private:
+};
 
 
 // reference	value_type&
