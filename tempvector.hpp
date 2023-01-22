@@ -1,3 +1,4 @@
+
 <typename T, class Allocator>
 class _base_vector
 {
