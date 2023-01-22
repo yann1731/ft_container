@@ -1,7 +1,7 @@
 #include <memory>
 #include <iterator>
 
-template <typename T, class _alloc = std::allocator<T>>
+template <typename T, class Allocator = std::allocator<T> >
 
 class vector
 {
