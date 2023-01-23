@@ -4,10 +4,10 @@
 #include <stack>
 #include <iterator>
 #include <algorithm>
+#include <memory>
 
 int main(void)
 {
-    
     ft::stack<int> st;
     ft::stack<int> st3;
 
