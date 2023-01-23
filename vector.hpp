@@ -1,5 +1,6 @@
 #include <memory>
 #include <iterator>
+#include <vector>
 
 template <typename T, class Allocator = std::allocator<T> >
 
@@ -29,8 +30,26 @@ public:
 		Allocator.deallocate(_elem, _size);
 	};
 
-protected:
-	
+	const vector<value_type> &operator=(const vector<value_type> &otherVector)
+	{
+		this->_elem = otherVector._elem;
+		this->_size = otherVector._size;
+	};
+
+	iterator begin(void)
+	{
+		return this->_elem[0];
+	};
+
+	iterator end(void)
+	{
+		return this->_elem[_size];
+	};
+
+
+
+
+
 private:
 	using value_type = T;
 	using size_type = size_t;
