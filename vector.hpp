@@ -2,20 +2,39 @@
 #include <iterator>
 #include <vector>
 
+namespace ft
+{
+
+
 template <typename T, class Allocator = std::allocator<T> >
 
 class vector
 {
+protected:
+	typedef T value_type;
+	typedef size_t size_type;
+	typedef std::ptrdiff_t difference_type;
+	typedef value_type& reference;
+	typedef const value_type& const_reference;
+	typedef typename std::allocator_traits<Allocator>::pointer pointer;
+	typedef typename std::allocator_traits<Allocator>::const_pointer const_pointer;
+	typedef value_type* iterator;
+	typedef const value_type* const_iterator;
+	typedef std::reverse_iterator<iterator> reverse_iterator;
+	typedef std::reverse_iterator<const_iterator> const_reverse_iterator;
+
 public:
 	vector()
 	{
-		_elem = Allocator.allocate(0);
+		Allocator alloc;
+		_elem = alloc.allocate(0);
 		_size = 0;
 	};
 
 	vector (size_type n, T value)
 	{
-		_elem = Allocator.allocate(n);
+		Allocator alloc;
+		_elem = alloc.allocate(n);
 		for (size_t i = 0; i < n; i++)
 			_elem[i] = value;
 	};
@@ -27,7 +46,8 @@ public:
 
 	~vector()
 	{
-		Allocator.deallocate(_elem, _size);
+		Allocator alloc;
+		alloc.deallocate(_elem, _size);
 	};
 
 	const vector<value_type> &operator=(const vector<value_type> &otherVector)
@@ -46,20 +66,8 @@ public:
 		return this->_elem[_size];
 	};
 
-
-
-
-
 private:
-	using value_type = T;
-	using size_type = size_t;
-	using difference_type = std::ptrdiff_t;
-	using reference = value_type&;
-	using const_reference = const value_type&;
-	using pointer = std::allocator_traits<Allocator>::pointer;
-	using const_pointer = std::allocator_traits<Allocator>::const_pointer;
-	using iterator = value_type*;
-	using const_iterator = const value_type*;
-	using reverse_iterator = std::reverse_iterator<iterator>
-	using const_reverse_iterator = std::reverse_iterator<const_iterator>;
+	pointer _elem;
+	size_type _size;
+};
 };

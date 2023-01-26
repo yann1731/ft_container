@@ -1,10 +1,12 @@
 #include <iostream>
 #include <stack>
+#include "vector.hpp"
 
 int main(void)
 {
-    std::stack<int> st;
+    ft::vector<int> vec;
+    std::vector<int> vec2;
 
-	std::stack<int>::container_type::iterator iterator;
+    std::vector<int>::iterator iter;
     return 0;
 }
