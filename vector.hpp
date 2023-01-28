@@ -2,6 +2,8 @@
 #include <iterator>
 #include <vector>
 
+#define my_noexcept throw();
+
 namespace ft
 {
 
@@ -12,6 +14,7 @@ class vector
 {
 protected:
 	typedef T value_type;
+	typedef Allocator allocator_type;
 	typedef size_t size_type;
 	typedef std::ptrdiff_t difference_type;
 	typedef value_type& reference;
@@ -31,17 +34,25 @@ public:
 		_size = 0;
 	};
 
-	vector (size_type n, T value)
+	
+	explicit vector(const Allocator& alloc)
 	{
-		Allocator alloc;
-		_elem = alloc.allocate(n);
-		for (size_t i = 0; i < n; i++)
-			_elem[i] = value;
+
 	};
 
-	vector(const vector &otherVector)
+	explicit vector(size_type count, const T& value = T(), const Allocator& alloc = Allocator())
 	{
-		*this = otherVector;
+
+	};
+
+	explicit vector(size_type count)
+	{
+
+	};
+
+	vector(const vector& other)
+	{
+
 	};
 
 	~vector()
@@ -65,9 +76,5 @@ public:
 	{
 		return this->_elem[_size];
 	};
-
-private:
-	pointer _elem;
-	size_type _size;
 };
 };
