@@ -5,10 +5,8 @@
   template<typename _Tp, typename _Alloc>
     struct _Vector_base
     {
-      typedef typename __gnu_cxx::__alloc_traits<_Alloc>::template
-	rebind<_Tp>::other _Tp_alloc_type;
-      typedef typename __gnu_cxx::__alloc_traits<_Tp_alloc_type>::pointer
-       	pointer;
+      typedef typename __gnu_cxx::__alloc_traits<_Alloc>::template rebind<_Tp>::other _Tp_alloc_type;
+      typedef typename __gnu_cxx::__alloc_traits<_Tp_alloc_type>::pointer pointer;
 
       struct _Vector_impl_data
       {
@@ -16,7 +14,6 @@
 	      pointer _M_finish;
 	      pointer _M_end_of_storage;
 
-	      _GLIBCXX20_CONSTEXPR
 	      _Vector_impl_data() : _M_start(), _M_finish(), _M_end_of_storage() { }
 
 	      void _M_copy_data(_Vector_impl_data const& __x) _GLIBCXX_NOEXCEPT
