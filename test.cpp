@@ -10,6 +10,7 @@ int main(void)
 {
     ft::stack<int> st;
     ft::stack<int> st3;
+    std::vector<int>::
 
     st.push(1);
     st.push(2);

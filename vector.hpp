@@ -5,6 +5,7 @@
 namespace ft
 {
 
+templat
 
 template <typename T, class Allocator = std::allocator<T> >
 
@@ -26,22 +27,17 @@ protected:
 public:
 	vector()
 	{
-		Allocator alloc;
-		_elem = alloc.allocate(0);
-		_size = 0;
+
 	};
 
 	vector (size_type n, T value)
 	{
-		Allocator alloc;
-		_elem = alloc.allocate(n);
-		for (size_t i = 0; i < n; i++)
-			_elem[i] = value;
+		
 	};
 
 	vector(const vector &otherVector)
 	{
-		*this = otherVector;
+		
 	};
 
 	~vector()

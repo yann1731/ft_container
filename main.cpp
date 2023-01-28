@@ -2,11 +2,21 @@
 #include <stack>
 #include "vector.hpp"
 
+class Whatever
+{
+    void amipublic(void)
+    {
+        std::cout << "I am public apparently. wtf" << std::endl;
+    };
+    public:
+    Whatever();
+    ~Whatever();
+};
+
 int main(void)
 {
-    ft::vector<int> vec;
-    std::vector<int> vec2;
+    Whatever we;
 
-    std::vector<int>::iterator iter;
+    we.amipublic();
     return 0;
 }
