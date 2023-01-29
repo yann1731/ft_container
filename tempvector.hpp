@@ -32,72 +32,80 @@
 	        _M_copy_data(__x);
 	        __x._M_copy_data(__tmp);
 	      }
-    };
+      };
+
       struct _Vector_impl: public _Tp_alloc_type, public _Vector_impl_data
       {
+	        _Vector_impl() _GLIBCXX_NOEXCEPT_IF(is_nothrow_default_constructible<_Tp_alloc_type>::value) : _Tp_alloc_type() { }
 
-	      _Vector_impl() _GLIBCXX_NOEXCEPT_IF(is_nothrow_default_constructible<_Tp_alloc_type>::value) : _Tp_alloc_type() { }
+	        _Vector_impl(_Tp_alloc_type const& __a): _Tp_alloc_type(__a) { }
+      };
 
-	      _Vector_impl(_Tp_alloc_type const& __a): _Tp_alloc_type(__a) { }
-
-    public:
+      public:
         typedef _Alloc allocator_type;
 
         _Tp_alloc_type& _M_get_Tp_allocator()
-        { return this->_M_impl; }
+        {
+          return this->_M_impl;
+        }
 
         const _Tp_alloc_type& _M_get_Tp_allocator() const
-        { return this->_M_impl; }
+        {
+          return this->_M_impl;
+        }
 
         allocator_type get_allocator() const _GLIBCXX_NOEXCEPT
-        { return allocator_type(_M_get_Tp_allocator()); }
+        {
+          return allocator_type(_M_get_Tp_allocator());
+        }
 
-      _Vector_base() { }
+        _Vector_base() { }
 
-      _Vector_base(const allocator_type& __a): _M_impl(__a) { }
+        _Vector_base(const allocator_type& __a): _M_impl(__a) { }
 
-      // Kept for ABI compatibility.
-      _Vector_base(size_t __n): _M_impl()
-      {
+        // Kept for ABI compatibility.
+        _Vector_base(size_t __n): _M_impl()
+        {
           _M_create_storage(__n);
-      }
+        }
 
-      _Vector_base(size_t __n, const allocator_type& __a): _M_impl(__a)
-      { 
+        _Vector_base(size_t __n, const allocator_type& __a): _M_impl(__a)
+        { 
           _M_create_storage(__n);
-      }
+        }
 
-      ~_Vector_base()
-      {
+        ~_Vector_base()
+        {
 	        _M_deallocate(_M_impl._M_start,
 		      _M_impl._M_end_of_storage - _M_impl._M_start);
-      }
+        }
 
-    public:
-      _Vector_impl _M_impl;
+      public:
+        _Vector_impl _M_impl;
 
-      pointer _M_allocate(size_t __n)
-      {
+        pointer _M_allocate(size_t __n)
+        {
 	        typedef __gnu_cxx::__alloc_traits<_Tp_alloc_type> _Tr;
 	        return __n != 0 ? _Tr::allocate(_M_impl, __n) : pointer();
-      }
+        }
 
-      void _M_deallocate(pointer __p, size_t __n)
-      {
+        void _M_deallocate(pointer __p, size_t __n)
+        {
 	        typedef __gnu_cxx::__alloc_traits<_Tp_alloc_type> _Tr;
         	if (__p)
 	        _Tr::deallocate(_M_impl, __p, __n);
-      }
+        }
 
-    protected:
-      void _M_create_storage(size_t __n)
-      {
+      protected:
+        void _M_create_storage(size_t __n)
+        {
 	        this->_M_impl._M_start = this->_M_allocate(__n);
 	        this->_M_impl._M_finish = this->_M_impl._M_start;
 	        this->_M_impl._M_end_of_storage = this->_M_impl._M_start + __n;
-      }
+        }
     };
 
+    /***** END OF _VECTOR_BASE *****/
     /***** START OF VECTOR *****/
 
     template<typename _Tp, typename _Alloc = std::allocator<_Tp> >
@@ -130,93 +138,102 @@
       using _Base::_M_impl;
       using _Base::_M_get_Tp_allocator;
 
-      _GLIBCXX20_CONSTEXPR
-      vector(const allocator_type& __a) _GLIBCXX_NOEXCEPT
-      : _Base(__a) { }
+      vector(const allocator_type& __a): _Base(__a) { }
 
-      vector(size_type __n, const value_type& __value = value_type(),
-	     const allocator_type& __a = allocator_type())
-      : _Base(_S_check_init_len(__n, __a), __a)
-      { _M_fill_initialize(__n, __value); }
-
-      vector(const vector& __x)
-      : _Base(__x.size(),
-	_Alloc_traits::_S_select_on_copy(__x._M_get_Tp_allocator()))
-    {
-	this->_M_impl._M_finish =
-	  std::__uninitialized_copy_a(__x.begin(), __x.end(),
-				      this->_M_impl._M_start,
-				      _M_get_Tp_allocator());
-    }
-
-    template<typename _InputIterator>
-	vector(_InputIterator __first, _InputIterator __last,
-	       const allocator_type& __a = allocator_type())
-	: _Base(__a)
-	{
-	  // Check whether it's an integral type.  If so, it's not an iterator.
-	  typedef typename std::__is_integer<_InputIterator>::__type _Integral;
-	  _M_initialize_dispatch(__first, __last, _Integral());
-	}
-
-    ~vector() _GLIBCXX_NOEXCEPT
+      vector(size_type __n, const value_type& __value = value_type(), const allocator_type& __a = allocator_type()): _Base(_S_check_init_len(__n, __a), __a)
       {
-	std::_Destroy(this->_M_impl._M_start, this->_M_impl._M_finish,
-		      _M_get_Tp_allocator());
-	_GLIBCXX_ASAN_ANNOTATE_BEFORE_DEALLOC;
+        _M_fill_initialize(__n, __value);
       }
 
-      vector&
-      operator=(const vector& __x);
-
-    void
-      assign(size_type __n, const value_type& __val)
-      { _M_fill_assign(__n, __val); }
-
-    template<typename _InputIterator>
-	void
-	assign(_InputIterator __first, _InputIterator __last)
-	{
-	  // Check whether it's an integral type.  If so, it's not an iterator.
-	  typedef typename std::__is_integer<_InputIterator>::__type _Integral;
-	  _M_assign_dispatch(__first, __last, _Integral());
-	}
-
-    iterator begin() _GLIBCXX_NOEXCEPT
-      { return iterator(this->_M_impl._M_start); }
-
-    const_iterator begin() const _GLIBCXX_NOEXCEPT
-      { return const_iterator(this->_M_impl._M_start); }
-
-    iterator end() _GLIBCXX_NOEXCEPT
-      { return iterator(this->_M_impl._M_finish); }
-
-    const_iterator end() const _GLIBCXX_NOEXCEPT
-      { return const_iterator(this->_M_impl._M_finish); }
-
-    reverse_iterator rbegin() _GLIBCXX_NOEXCEPT
-      { return reverse_iterator(end()); }
-
-    const_reverse_iterator rbegin() const _GLIBCXX_NOEXCEPT
-      { return const_reverse_iterator(end()); }
-
-    reverse_iterator rend() _GLIBCXX_NOEXCEPT
-      { return reverse_iterator(begin()); }
-
-    const_reverse_iterator rend() const _GLIBCXX_NOEXCEPT
-      { return const_reverse_iterator(begin()); }
-
-    size_type size() const _GLIBCXX_NOEXCEPT
-      { return size_type(this->_M_impl._M_finish - this->_M_impl._M_start); }
-
-    size_type max_size() const _GLIBCXX_NOEXCEPT
-      { return _S_max_size(_M_get_Tp_allocator()); }
-
-    void resize(size_type __new_size, value_type __x = value_type())
+      vector(const vector& __x): _Base(__x.size(), _Alloc_traits::_S_select_on_copy(__x._M_get_Tp_allocator()))
       {
-	    if (__new_size > size())
+	      this->_M_impl._M_finish = std::__uninitialized_copy_a(__x.begin(), __x.end(),
+	      this->_M_impl._M_start, _M_get_Tp_allocator());
+      }
+
+      template<typename _InputIterator>
+	    vector(_InputIterator __first, _InputIterator __last, const allocator_type& __a = allocator_type()): _Base(__a)
+	    {
+	      // Check whether it's an integral type.  If so, it's not an iterator.
+	      typedef typename std::__is_integer<_InputIterator>::__type _Integral;
+	      _M_initialize_dispatch(__first, __last, _Integral());
+	    }
+
+      ~vector() _GLIBCXX_NOEXCEPT
+      {
+	      std::_Destroy(this->_M_impl._M_start, this->_M_impl._M_finish, _M_get_Tp_allocator());
+      }
+
+      vector& operator=(const vector& __x);
+
+      void assign(size_type __n, const value_type& __val)
+      { 
+          _M_fill_assign(__n, __val);
+      }
+
+      template<typename _InputIterator>
+	    void assign(_InputIterator __first, _InputIterator __last)
+	    {
+	      // Check whether it's an integral type.  If so, it's not an iterator.
+	      typedef typename std::__is_integer<_InputIterator>::__type _Integral;
+	      _M_assign_dispatch(__first, __last, _Integral());
+	    }
+
+      iterator begin() _GLIBCXX_NOEXCEPT
+      {
+        return iterator(this->_M_impl._M_start);
+      }
+
+      const_iterator begin() const _GLIBCXX_NOEXCEPT
+      {
+        return const_iterator(this->_M_impl._M_start);
+      }
+
+      iterator end() _GLIBCXX_NOEXCEPT
+      {
+        return iterator(this->_M_impl._M_finish);
+      }
+
+      const_iterator end() const _GLIBCXX_NOEXCEPT
+      {
+        return const_iterator(this->_M_impl._M_finish);
+      }
+
+      reverse_iterator rbegin() _GLIBCXX_NOEXCEPT
+      {
+        return reverse_iterator(end());
+      }
+
+      const_reverse_iterator rbegin() const _GLIBCXX_NOEXCEPT
+      {
+        return const_reverse_iterator(end());
+      }
+
+      reverse_iterator rend() _GLIBCXX_NOEXCEPT
+      {
+        return reverse_iterator(begin());
+      }
+
+      const_reverse_iterator rend() const _GLIBCXX_NOEXCEPT
+      {
+        return const_reverse_iterator(begin());
+      }
+
+      size_type size() const _GLIBCXX_NOEXCEPT
+      {
+        return size_type(this->_M_impl._M_finish - this->_M_impl._M_start);
+      }
+
+      size_type max_size() const _GLIBCXX_NOEXCEPT
+      {
+        return _S_max_size(_M_get_Tp_allocator());
+      }
+
+      void resize(size_type __new_size, value_type __x = value_type())
+      {
+	      if (__new_size > size())
 	        _M_fill_insert(end(), __new_size - size(), __x);
-	    else if (__new_size < size())
+	      else if (__new_size < size())
 	        _M_erase_at_end(this->_M_impl._M_start + __new_size);
       }
 
