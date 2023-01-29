@@ -7,8 +7,6 @@
 namespace ft
 {
 
-templat
-
 template <typename T, class Allocator = std::allocator<T> >
 
 class vector
