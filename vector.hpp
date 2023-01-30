@@ -44,24 +44,22 @@ public:
 
 	~vector()
 	{
-		Allocator alloc;
-		alloc.deallocate(_elem, _size);
+		
 	};
 
 	const vector<value_type> &operator=(const vector<value_type> &otherVector)
 	{
-		this->_elem = otherVector._elem;
-		this->_size = otherVector._size;
+	
 	};
 
 	iterator begin(void)
 	{
-		return this->_elem[0];
+	
 	};
 
 	iterator end(void)
 	{
-		return this->_elem[_size];
+	
 	};
 };
 };
