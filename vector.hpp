@@ -25,6 +25,9 @@ protected:
     typedef pointer                                  iterator;
     typedef const_pointer                            const_iterator;
 
+	pointer _begin;
+	pointer _end;
+	pointer _cap;
 };
 
 template <typename T, class Allocator = std::allocator<T> >
@@ -45,7 +48,7 @@ protected:
 	typedef std::reverse_iterator<iterator> reverse_iterator;
 	typedef std::reverse_iterator<const_iterator> const_reverse_iterator;
 
-	pointer start_;
+	pointer begin_;
 	pointer end_;
 	pointer last_;
 
@@ -78,12 +81,12 @@ public:
 
 	iterator begin(void)
 	{
-	
+		return (iterator(begin_));
 	};
 
 	iterator end(void)
 	{
-	
+		return (iterator(end_));
 	};
 };
 };

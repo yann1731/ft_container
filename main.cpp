@@ -1,10 +1,12 @@
 #include <iostream>
 #include <stack>
 #include "vector.hpp"
+#include <vector>
 
 int main(void)
 {
-    ft::vector<int> vec;
+
+    ft::vector<std::vector<int> > vec;
 
     return 0;
 }
