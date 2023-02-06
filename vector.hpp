@@ -19,11 +19,6 @@ protected:
     typedef T                                     	 value_type;
     typedef value_type&                              reference;
     typedef const value_type&                        const_reference;
-    typedef typename __alloc_traits::difference_type difference_type;
-    typedef typename __alloc_traits::pointer         pointer;
-    typedef typename __alloc_traits::const_pointer   const_pointer;
-    typedef pointer                                  iterator;
-    typedef const_pointer                            const_iterator;
 
 	pointer _begin;
 	pointer _end;
