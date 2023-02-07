@@ -114,19 +114,13 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
    *  the requirement that the iterators must be safe.
   */
   template<typename _Iterator>
-    class reverse_iterator
-    : public iterator<typename iterator_traits<_Iterator>::iterator_category,
-		      typename iterator_traits<_Iterator>::value_type,
-		      typename iterator_traits<_Iterator>::difference_type,
-		      typename iterator_traits<_Iterator>::pointer,
-                      typename iterator_traits<_Iterator>::reference>
+    class reverse_iterator: public iterator<typename iterator_traits<_Iterator>::iterator_category, typename iterator_traits<_Iterator>::value_type, typename iterator_traits<_Iterator>::difference_type, typename iterator_traits<_Iterator>::pointer, typename iterator_traits<_Iterator>::reference>
     {
-      template<typename _Iter>
-	friend class reverse_iterator;
+    template<typename _Iter>
+	    friend class reverse_iterator;
 
     protected:
       _Iterator current;
-
       typedef iterator_traits<_Iterator>		__traits_type;
 
     public:
@@ -143,38 +137,33 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       // _GLIBCXX_RESOLVE_LIB_DEFECTS
       // 235 No specification of default ctor for reverse_iterator
       // 1012. reverse_iterator default ctor should value initialize
-      _GLIBCXX17_CONSTEXPR
       reverse_iterator() : current() { }
 
       /**
        *  This %iterator will move in the opposite direction that @p x does.
       */
-      explicit _GLIBCXX17_CONSTEXPR
-      reverse_iterator(iterator_type __x) : current(__x) { }
+      explicit reverse_iterator(iterator_type __x) : current(__x) { }
 
       /**
        *  The copy constructor is normal.
       */
-      _GLIBCXX17_CONSTEXPR
-      reverse_iterator(const reverse_iterator& __x)
-      : current(__x.current) { }
+      reverse_iterator(const reverse_iterator& __x): current(__x.current) { }
 
       /**
        *  A %reverse_iterator across other types can be copied if the
        *  underlying %iterator can be converted to the type of @c current.
       */
-      template<typename _Iter>
-	_GLIBCXX17_CONSTEXPR
-        reverse_iterator(const reverse_iterator<_Iter>& __x)
-	: current(__x.current) { }
+    template<typename _Iter>
+      reverse_iterator(const reverse_iterator<_Iter>& __x): current(__x.current) { }
 
 
       /**
        *  @return  @c current, the %iterator used for underlying work.
       */
-      _GLIBCXX17_CONSTEXPR iterator_type
-      base() const
-      { return current; }
+      iterator_type base() const
+      {
+        return current;
+      }
 
       /**
        *  @return  A reference to the value at @c --current
@@ -186,11 +175,10 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
        *           @c *x remains valid after @c x has been modified or
        *           destroyed. This is a bug: http://gcc.gnu.org/PR51823
       */
-      _GLIBCXX17_CONSTEXPR reference
-      operator*() const
+      reference operator*() const
       {
-	_Iterator __tmp = current;
-	return *--__tmp;
+	      _Iterator __tmp = current;
+	      return *--__tmp;
       }
 
       /**
@@ -198,14 +186,11 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
        *
        *  This requires that @c --current is dereferenceable.
       */
-      _GLIBCXX17_CONSTEXPR pointer
-      operator->() const
+      pointer operator->() const
       {
-	// _GLIBCXX_RESOLVE_LIB_DEFECTS
-	// 1052. operator-> should also support smart pointers
-	_Iterator __tmp = current;
-	--__tmp;
-	return _S_to_pointer(__tmp);
+	      _Iterator __tmp = current;
+	      --__tmp;
+	      return _S_to_pointer(__tmp);
       }
 
       /**
@@ -213,11 +198,10 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
        *
        *  Decrements the underlying iterator.
       */
-      _GLIBCXX17_CONSTEXPR reverse_iterator&
-      operator++()
+      reverse_iterator& operator++()
       {
-	--current;
-	return *this;
+	      --current;
+	      return *this;
       }
 
       /**
@@ -225,12 +209,11 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
        *
        *  Decrements the underlying iterator.
       */
-      _GLIBCXX17_CONSTEXPR reverse_iterator
-      operator++(int)
+      reverse_iterator operator++(int)
       {
-	reverse_iterator __tmp = *this;
-	--current;
-	return __tmp;
+	      reverse_iterator __tmp = *this;
+	      --current;
+	      return __tmp;
       }
 
       /**
@@ -238,11 +221,10 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
        *
        *  Increments the underlying iterator.
       */
-      _GLIBCXX17_CONSTEXPR reverse_iterator&
-      operator--()
+      reverse_iterator& operator--()
       {
-	++current;
-	return *this;
+	      ++current;
+	      return *this;
       }
 
       /**
@@ -250,12 +232,11 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
        *
        *  Increments the underlying iterator.
       */
-      _GLIBCXX17_CONSTEXPR reverse_iterator
-      operator--(int)
+      reverse_iterator operator--(int)
       {
-	reverse_iterator __tmp = *this;
-	++current;
-	return __tmp;
+	      reverse_iterator __tmp = *this;
+	      ++current;
+	      return __tmp;
       }
 
       /**
