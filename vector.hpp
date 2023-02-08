@@ -1,6 +1,5 @@
 #include <memory>
 #include <iterator>
-#include <vector>
 
 #define my_noexcept throw();
 
@@ -9,20 +8,39 @@ namespace ft
 
 template <typename T, class Allocator>
 
-class _vector_base
+struct _vector_base
 {
-public:
-    typedef Allocator                              	 allocator_type;
-    typedef std::allocator_traits<allocator_type>    __alloc_traits;
-    typedef typename __alloc_traits::size_type       size_type;
-protected:
-    typedef T                                     	 value_type;
-    typedef value_type&                              reference;
-    typedef const value_type&                        const_reference;
+	typedef typename __gnu_cxx::__alloc_traits<Allocator>template rebind<T>::other T_Alloc_Type;
+	typedef typename __gnu_cxx::__alloc_traits<T_Alloc_Type>::pointer pointer;
 
-	pointer _begin;
-	pointer _end;
-	pointer _cap;
+	struct vec_impl_data
+	{
+		pointer _start;
+		pointer _finish;
+		pointer _end;
+
+		vec_impl_data: _start(), _finish(), _end() {};
+
+		void copy_data (const vec_impl_data& other)
+		{
+			_start = other._start;
+			_finish = other._finish;
+			_end = other._end;
+		}
+
+		void swap_data (vec_impl_data &other)
+		{
+			vec_impl_data tmp;
+			tmp.copy_data(*this);
+			copy_data(other);
+			other.copy_data(tmp);
+		}
+	};
+
+	struct vec_impl: public T_Alloc_type, public vec_impl_data
+	{
+		
+	}
 };
 
 template <typename T, class Allocator = std::allocator<T> >
