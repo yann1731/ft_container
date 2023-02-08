@@ -309,16 +309,14 @@ __INT_N(__GLIBCXX_TYPE_INT_N_3)
   // An arithmetic type is an integer type or a floating point type
   //
   template<typename _Tp>
-    struct __is_arithmetic
-    : public __traitor<__is_integer<_Tp>, __is_floating<_Tp> >
+    struct __is_arithmetic: public __traitor<__is_integer<_Tp>, __is_floating<_Tp> >
     { };
 
   //
   // A scalar type is an arithmetic type or a pointer type
   // 
   template<typename _Tp>
-    struct __is_scalar
-    : public __traitor<__is_arithmetic<_Tp>, __is_pointer<_Tp> >
+    struct __is_scalar: public __traitor<__is_arithmetic<_Tp>, __is_pointer<_Tp> >
     { };
 
   //
@@ -402,13 +400,11 @@ __INT_N(__GLIBCXX_TYPE_INT_N_3)
     };
 
   template<typename _Tp>
-    struct __memcpyable<_Tp*, _Tp*>
-    : __is_nonvolatile_trivially_copyable<_Tp>
+    struct __memcpyable<_Tp*, _Tp*>: __is_nonvolatile_trivially_copyable<_Tp>
     { };
 
   template<typename _Tp>
-    struct __memcpyable<_Tp*, const _Tp*>
-    : __is_nonvolatile_trivially_copyable<_Tp>
+    struct __memcpyable<_Tp*, const _Tp*>: __is_nonvolatile_trivially_copyable<_Tp>
     { };
 
   // Whether two iterator types can be used with memcmp.
@@ -424,18 +420,15 @@ __INT_N(__GLIBCXX_TYPE_INT_N_3)
 
   // OK to use memcmp with pointers to trivially copyable types.
   template<typename _Tp>
-    struct __memcmpable<_Tp*, _Tp*>
-    : __is_nonvolatile_trivially_copyable<_Tp>
+    struct __memcmpable<_Tp*, _Tp*>: __is_nonvolatile_trivially_copyable<_Tp>
     { };
 
   template<typename _Tp>
-    struct __memcmpable<const _Tp*, _Tp*>
-    : __is_nonvolatile_trivially_copyable<_Tp>
+    struct __memcmpable<const _Tp*, _Tp*>: __is_nonvolatile_trivially_copyable<_Tp>
     { };
 
   template<typename _Tp>
-    struct __memcmpable<_Tp*, const _Tp*>
-    : __is_nonvolatile_trivially_copyable<_Tp>
+    struct __memcmpable<_Tp*, const _Tp*>: __is_nonvolatile_trivially_copyable<_Tp>
     { };
 
   // Whether memcmp can be used to determine ordering for a type
@@ -444,9 +437,7 @@ __INT_N(__GLIBCXX_TYPE_INT_N_3)
   // as an unsigned char yields the right result. This is true for all
   // unsigned integers on big endian targets, but only unsigned narrow
   // character types (and std::byte) on little endian targets.
-  template<typename _Tp, bool _TreatAsBytes =
-	__is_byte<_Tp>::__value
-    >
+  template<typename _Tp, bool _TreatAsBytes = __is_byte<_Tp>::__value>
     struct __is_memcmp_ordered
     {
       static const bool __value = _Tp(-1) > _Tp(1); // is unsigned
@@ -462,8 +453,7 @@ __INT_N(__GLIBCXX_TYPE_INT_N_3)
   template<typename _Tp, typename _Up, bool = sizeof(_Tp) == sizeof(_Up)>
     struct __is_memcmp_ordered_with
     {
-      static const bool __value = __is_memcmp_ordered<_Tp>::__value
-	&& __is_memcmp_ordered<_Up>::__value;
+      static const bool __value = __is_memcmp_ordered<_Tp>::__value && __is_memcmp_ordered<_Up>::__value;
     };
 
   template<typename _Tp, typename _Up>
@@ -486,12 +476,11 @@ __INT_N(__GLIBCXX_TYPE_INT_N_3)
   // Fallback implementation of the function in bits/stl_iterator.h used to
   // remove the move_iterator wrapper.
   template<typename _Iterator>
-    _GLIBCXX20_CONSTEXPR
-    inline _Iterator
-    __miter_base(_Iterator __it)
-    { return __it; }
+    inline _Iterator __miter_base(_Iterator __it)
+    {
+      return __it;
+    }
 
-_GLIBCXX_END_NAMESPACE_VERSION
 } // namespace
 } // extern "C++"
 

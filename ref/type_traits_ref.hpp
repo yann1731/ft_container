@@ -47,17 +47,23 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
   template<typename _Tp>
     struct __enable_if<true, _Tp>
-    { typedef _Tp __type; };
+    {
+      typedef _Tp __type;
+    };
 
 
   // Conditional expression for types. If true, first, if false, second.
   template<bool _Cond, typename _Iftrue, typename _Iffalse>
     struct __conditional_type
-    { typedef _Iftrue __type; };
+    {
+      typedef _Iftrue __type;
+    };
 
   template<typename _Iftrue, typename _Iffalse>
     struct __conditional_type<false, _Iftrue, _Iffalse>
-    { typedef _Iffalse __type; };
+    {
+      typedef _Iffalse __type;
+    };
 
 
   // Given an integral builtin type, return the corresponding unsigned type.
@@ -73,27 +79,39 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
   template<>
     struct __add_unsigned<char>
-    { typedef unsigned char __type; };
+    {
+      typedef unsigned char __type;
+    };
 
   template<>
     struct __add_unsigned<signed char>
-    { typedef unsigned char __type; };
+    {
+      typedef unsigned char __type;
+    };
 
   template<>
     struct __add_unsigned<short>
-    { typedef unsigned short __type; };
+    {
+      typedef unsigned short __type;
+    };
 
   template<>
     struct __add_unsigned<int>
-    { typedef unsigned int __type; };
+    {
+      typedef unsigned int __type;
+    };
 
   template<>
     struct __add_unsigned<long>
-    { typedef unsigned long __type; };
+    {
+      typedef unsigned long __type;
+    };
 
   template<>
     struct __add_unsigned<long long>
-    { typedef unsigned long long __type; };
+    {
+      typedef unsigned long long __type;
+    };
 
   // Declare but don't define.
   template<>
@@ -116,27 +134,39 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
   template<>
     struct __remove_unsigned<char>
-    { typedef signed char __type; };
+    {
+      typedef signed char __type;
+    };
 
   template<>
     struct __remove_unsigned<unsigned char>
-    { typedef signed char __type; };
+    {
+      typedef signed char __type;
+    };
 
   template<>
     struct __remove_unsigned<unsigned short>
-    { typedef short __type; };
+    {
+      typedef short __type;
+    };
 
   template<>
     struct __remove_unsigned<unsigned int>
-    { typedef int __type; };
+    {
+      typedef int __type;
+    };
 
   template<>
     struct __remove_unsigned<unsigned long>
-    { typedef long __type; };
+    {
+      typedef long __type;
+    };
 
   template<>
     struct __remove_unsigned<unsigned long long>
-    { typedef long long __type; };
+    {
+      typedef long long __type;
+    };
 
   // Declare but don't define.
   template<>
@@ -148,16 +178,16 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
   // For use in string and vstring.
   template<typename _Type>
-    _GLIBCXX_CONSTEXPR
-    inline bool
-    __is_null_pointer(_Type* __ptr)
-    { return __ptr == 0; }
+    inline bool __is_null_pointer(_Type* __ptr)
+    {
+      return __ptr == 0;
+    }
 
   template<typename _Type>
-    _GLIBCXX_CONSTEXPR
-    inline bool
-    __is_null_pointer(_Type)
-    { return false; }
+    inline bool __is_null_pointer(_Type)
+    {
+      return false;
+    }
 
 #if __cplusplus >= 201103L
   constexpr bool
@@ -169,7 +199,9 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
   template<typename _Tp, bool = std::__is_integer<_Tp>::__value>
     struct __promote
-    { typedef double __type; };
+    {
+      typedef double __type;
+    };
 
   // No nested __type member for non-integer non-floating point types,
   // allows this type to be used for SFINAE to constrain overloads in
@@ -180,38 +212,35 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
   template<>
     struct __promote<long double>
-    { typedef long double __type; };
+    {
+      typedef long double __type;
+    };
 
   template<>
     struct __promote<double>
-    { typedef double __type; };
+    {
+      typedef double __type;
+    };
 
   template<>
     struct __promote<float>
-    { typedef float __type; };
+    {
+      typedef float __type;
+    };
 
-  template<typename _Tp, typename _Up,
-           typename _Tp2 = typename __promote<_Tp>::__type,
-           typename _Up2 = typename __promote<_Up>::__type>
+  template<typename _Tp, typename _Up, typename _Tp2 = typename __promote<_Tp>::__type, typename _Up2 = typename __promote<_Up>::__type>
     struct __promote_2
     {
       typedef __typeof__(_Tp2() + _Up2()) __type;
     };
 
-  template<typename _Tp, typename _Up, typename _Vp,
-           typename _Tp2 = typename __promote<_Tp>::__type,
-           typename _Up2 = typename __promote<_Up>::__type,
-           typename _Vp2 = typename __promote<_Vp>::__type>
+  template<typename _Tp, typename _Up, typename _Vp, typename _Tp2 = typename __promote<_Tp>::__type, typename _Up2 = typename __promote<_Up>::__type, typename _Vp2 = typename __promote<_Vp>::__type>
     struct __promote_3
     {
       typedef __typeof__(_Tp2() + _Up2() + _Vp2()) __type;
     };
 
-  template<typename _Tp, typename _Up, typename _Vp, typename _Wp,
-           typename _Tp2 = typename __promote<_Tp>::__type,
-           typename _Up2 = typename __promote<_Up>::__type,
-           typename _Vp2 = typename __promote<_Vp>::__type,
-           typename _Wp2 = typename __promote<_Wp>::__type>
+  template<typename _Tp, typename _Up, typename _Vp, typename _Wp, typename _Tp2 = typename __promote<_Tp>::__type, typename _Up2 = typename __promote<_Up>::__type, typename _Vp2 = typename __promote<_Vp>::__type, typename _Wp2 = typename __promote<_Wp>::__type>
     struct __promote_4
     {
       typedef __typeof__(_Tp2() + _Up2() + _Vp2() + _Wp2()) __type;
