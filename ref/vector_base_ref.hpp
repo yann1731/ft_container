@@ -1,7 +1,5 @@
-namespace std _GLIBCXX_VISIBILITY(default)
+namespace std
 {
-_GLIBCXX_BEGIN_NAMESPACE_VERSION
-_GLIBCXX_BEGIN_NAMESPACE_CONTAINER
 
   /// See bits/stl_deque.h's _Deque_base for an explanation.
   template<typename _Tp, typename _Alloc>
@@ -93,14 +91,14 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
 		pointer _M_allocate(size_t __n)
 	  	{
 			typedef __gnu_cxx::__alloc_traits<_Tp_alloc_type> _Tr;
-			return __n != 0 ? _Tr::allocate(_M_impl, __n) : pointer();
+			return (__n != 0 ? _Tr::allocate(_M_impl, __n) : pointer());
 		}
 
 	  	void _M_deallocate(pointer __p, size_t __n)
 	  	{
 			typedef __gnu_cxx::__alloc_traits<_Tp_alloc_type> _Tr;
 			if (__p)
-	  		_Tr::deallocate(_M_impl, __p, __n);
+	  			_Tr::deallocate(_M_impl, __p, __n);
 	  	}
 
 	protected:
@@ -111,3 +109,4 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
 			this->_M_impl._M_end_of_storage = this->_M_impl._M_start + __n;
 	  	}
 	};
+}
