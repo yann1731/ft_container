@@ -144,6 +144,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   template<typename _Iterator>
     struct iterator_traits;
 
+
+//***** DUNNO ABOUT THAT HERE ******//
 #if __cplusplus >= 201103L
   // _GLIBCXX_RESOLVE_LIB_DEFECTS
   // 2408. SFINAE-friendly common_type/iterator_traits is missing in C++14
@@ -202,18 +204,22 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
    *  sugar for internal library use only.
   */
   template<typename _Iter>
-    inline _GLIBCXX_CONSTEXPR
-    typename iterator_traits<_Iter>::iterator_category
-    __iterator_category(const _Iter&)
-    { return typename iterator_traits<_Iter>::iterator_category(); }
+    inline typename iterator_traits<_Iter>::iterator_category __iterator_category(const _Iter&)
+    {
+      return typename iterator_traits<_Iter>::iterator_category();
+    }
 
   ///@}
 
 
-  template<typename _It, typename _Traits = iterator_traits<_It>,
-	   typename _Cat = typename _Traits::iterator_category>
+  template<typename _It, typename _Traits = iterator_traits<_It>, typename _Cat = typename _Traits::iterator_category>
     struct __is_random_access_iter
-    { enum { __value = __is_base_of(random_access_iterator_tag, _Cat) }; };
+    {
+      enum
+      {
+        __value = __is_base_of(random_access_iterator_tag, _Cat)
+      };
+    };
 
 _GLIBCXX_END_NAMESPACE_VERSION
 } // namespace

@@ -162,30 +162,12 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       typedef __true_type __type;
     };
 
-# ifdef __WCHAR_TYPE__
   template<>
     struct __is_integer<wchar_t>
     {
       enum { __value = 1 };
       typedef __true_type __type;
     };
-# endif
-
-#if __cplusplus >= 201103L
-  template<>
-    struct __is_integer<char16_t>
-    {
-      enum { __value = 1 };
-      typedef __true_type __type;
-    };
-
-  template<>
-    struct __is_integer<char32_t>
-    {
-      enum { __value = 1 };
-      typedef __true_type __type;
-    };
-#endif
 
   template<>
     struct __is_integer<short>
