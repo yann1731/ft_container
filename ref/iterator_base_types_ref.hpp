@@ -117,8 +117,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
    *  In particular, there are no default implementations of requirements
    *  such as @c operator++ and the like.  (How could there be?)
   */
-  template<typename _Category, typename _Tp, typename _Distance = ptrdiff_t,
-           typename _Pointer = _Tp*, typename _Reference = _Tp&>
+  template<typename _Category, typename _Tp, typename _Distance = ptrdiff_t, typename _Pointer = _Tp*, typename _Reference = _Tp&>
     struct _GLIBCXX17_DEPRECATED iterator
     {
       /// One of the @link iterator_tags tag types@endlink.

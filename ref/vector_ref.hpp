@@ -826,104 +826,103 @@ namespace std
 
       // _GLIBCXX_RESOLVE_LIB_DEFECTS
       // 438. Ambiguity in the "do the right thing" clause
-      template<typename _Integer>
-        void _M_insert_dispatch(iterator __pos, _Integer __n, _Integer __val, __true_type)
+    template<typename _Integer>
+      void _M_insert_dispatch(iterator __pos, _Integer __n, _Integer __val, __true_type)
 	    {
             _M_fill_insert(__pos, __n, __val);
-        }
+      }
 
       // Called by the range insert to implement [23.1.1]/9
-      template<typename _InputIterator>
+    template<typename _InputIterator>
 	    void _M_insert_dispatch(iterator __pos, _InputIterator __first, _InputIterator __last, __false_type)
 	    {
 	        _M_range_insert(__pos, __first, __last, std::__iterator_category(__first));
 	    }
 
       // Called by the second insert_dispatch above
-      template<typename _InputIterator>
+    template<typename _InputIterator>
 	    void _M_range_insert(iterator __pos, _InputIterator __first, _InputIterator __last, std::input_iterator_tag);
 
       // Called by the second insert_dispatch above
-      template<typename _ForwardIterator>
+    template<typename _ForwardIterator>
 	    void _M_range_insert(iterator __pos, _ForwardIterator __first, _ForwardIterator __last, std::forward_iterator_tag);
 
       // Called by insert(p,n,x), and the range insert when it turns out to be
       // the same thing.
-        void _M_fill_insert(iterator __pos, size_type __n, const value_type& __x);
+      void _M_fill_insert(iterator __pos, size_type __n, const value_type& __x);
 
       // Called by insert(p,x)
-        void _M_insert_aux(iterator __position, const value_type& __x);
+      void _M_insert_aux(iterator __position, const value_type& __x);
 
-        void _M_realloc_insert(iterator __position, const value_type& __x);
+      void _M_realloc_insert(iterator __position, const value_type& __x);
 
 
       // Called by _M_fill_insert, _M_insert_aux etc.
-        size_type _M_check_len(size_type __n, const char* __s) const
-        {
-	        if (max_size() - size() < __n)
-	            __throw_length_error(__N(__s));
-
-	        const size_type __len = size() + (std::max)(size(), __n);
-	        return (__len < size() || __len > max_size()) ? max_size() : __len;
-        }
+      size_type _M_check_len(size_type __n, const char* __s) const
+      {
+	      if (max_size() - size() < __n)
+	          __throw_length_error(__N(__s));
+	      const size_type __len = size() + (std::max)(size(), __n);
+	      return (__len < size() || __len > max_size()) ? max_size() : __len;
+      }
 
       // Called by constructors to check initial size.
-        static size_type _S_check_init_len(size_type __n, const allocator_type& __a)
-        {
-	        if (__n > _S_max_size(_Tp_alloc_type(__a)))
-	            __throw_length_error(
-	        __N("cannot create std::vector larger than max_size()"));
-	        return __n;
-        }
+      static size_type _S_check_init_len(size_type __n, const allocator_type& __a)
+      {
+	      if (__n > _S_max_size(_Tp_alloc_type(__a)))
+	          __throw_length_error(
+	      __N("cannot create std::vector larger than max_size()"));
+	      return __n;
+      }
 
-        static size_type _S_max_size(const _Tp_alloc_type& __a) _GLIBCXX_NOEXCEPT
-        {
-	        // std::distance(begin(), end()) cannot be greater than PTRDIFF_MAX,
-	        // and realistically we can't store more than PTRDIFF_MAX/sizeof(T)
-	        // (even if std::allocator_traits::max_size says we can).
-	        const size_t __diffmax = __gnu_cxx::__numeric_traits<ptrdiff_t>::__max / sizeof(_Tp);
-	        const size_t __allocmax = _Alloc_traits::max_size(__a);
-	        return (std::min)(__diffmax, __allocmax);
-        }
+      static size_type _S_max_size(const _Tp_alloc_type& __a) _GLIBCXX_NOEXCEPT
+      {
+	      // std::distance(begin(), end()) cannot be greater than PTRDIFF_MAX,
+	      // and realistically we can't store more than PTRDIFF_MAX/sizeof(T)
+	      // (even if std::allocator_traits::max_size says we can).
+	      const size_t __diffmax = __gnu_cxx::__numeric_traits<ptrdiff_t>::__max / sizeof(_Tp);
+	      const size_t __allocmax = _Alloc_traits::max_size(__a);
+	      return (std::min)(__diffmax, __allocmax);
+      }
 
       // Internal erase functions follow.
 
       // Called by erase(q1,q2), clear(), resize(), _M_fill_assign,
       // _M_assign_aux.
-        void _M_erase_at_end(pointer __pos) _GLIBCXX_NOEXCEPT
-        {
-	        if (size_type __n = this->_M_impl._M_finish - __pos)
-	        {
-	            std::_Destroy(__pos, this->_M_impl._M_finish, _M_get_Tp_allocator());
-	            this->_M_impl._M_finish = __pos;
-	            _GLIBCXX_ASAN_ANNOTATE_SHRINK(__n);
-	        }
-        }
+      void _M_erase_at_end(pointer __pos) _GLIBCXX_NOEXCEPT
+      {
+	      if (size_type __n = this->_M_impl._M_finish - __pos)
+	      {
+	          std::_Destroy(__pos, this->_M_impl._M_finish, _M_get_Tp_allocator());
+	          this->_M_impl._M_finish = __pos;
+	          _GLIBCXX_ASAN_ANNOTATE_SHRINK(__n);
+	      }
+      }
 
-        iterator _M_erase(iterator __position);
+      iterator _M_erase(iterator __position);
 
-        iterator _M_erase(iterator __first, iterator __last);
+      iterator _M_erase(iterator __first, iterator __last);
 
 
-      template<typename _Up>
+    template<typename _Up>
 	    _Up* _M_data_ptr(_Up* __ptr) const _GLIBCXX_NOEXCEPT
 	    {
             return __ptr;
-        }
+      }
 
-      template<typename _Up>
+    template<typename _Up>
 	    _Up* _M_data_ptr(_Up* __ptr) _GLIBCXX_NOEXCEPT
 	    {
             return __ptr;
-        }
+      }
 
-      template<typename _Ptr>
+    template<typename _Ptr>
 	    value_type* _M_data_ptr(_Ptr __ptr)
 	    {
             return empty() ? (value_type*)0 : __ptr.operator->();
-        }
+      }
 
-      template<typename _Ptr>
+    template<typename _Ptr>
 	    const value_type* _M_data_ptr(_Ptr __ptr) const
 	    {
             return empty() ? (const value_type*)0 : __ptr.operator->();

@@ -533,8 +533,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       front_insert_iterator&
       operator=(typename _Container::const_reference __value)
       {
-	container->push_front(__value);
-	return *this;
+	      container->push_front(__value);
+	      return *this;
       }
 
 
