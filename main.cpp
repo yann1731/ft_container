@@ -2,6 +2,7 @@
 #include <stack>
 #include "vector.hpp"
 #include <vector>
+#include <map>
 
 int main(void)
 {
