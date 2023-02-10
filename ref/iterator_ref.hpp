@@ -712,17 +712,14 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       typedef typename __traits_type::pointer   	pointer;
 
 
-      _GLIBCXX_CONSTEXPR __normal_iterator() _GLIBCXX_NOEXCEPT
-      : _M_current(_Iterator()) { }
+      __normal_iterator() _GLIBCXX_NOEXCEPT: _M_current(_Iterator()) { }
 
       //explicit
-      __normal_iterator(const _Iterator& __i) _GLIBCXX_NOEXCEPT
-      : _M_current(__i) { }
+      __normal_iterator(const _Iterator& __i) _GLIBCXX_NOEXCEPT: _M_current(__i) { }
 
       // Allow iterator to const_iterator conversion
       template<typename _Iter>
-        __normal_iterator(const __normal_iterator<_Iter, typename __enable_if<(std::__are_same<_Iter, typename _Container::pointer>::__value), _Container>::__type>& __i) _GLIBCXX_NOEXCEPT
-        : _M_current(__i.base()) { }
+        __normal_iterator(const __normal_iterator<_Iter, typename __enable_if<(std::__are_same<_Iter, typename _Container::pointer>::__value), _Container>::__type>& __i) _GLIBCXX_NOEXCEPT: _M_current(__i.base()) { }
 
       // Forward iterator requirements
       reference operator*() const _GLIBCXX_NOEXCEPT
