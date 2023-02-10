@@ -93,4 +93,76 @@ public:
 	}
 };
 
+template <typename IteratorL, typename IteratorR, typename Container>
+inline bool operator==(const vector_iterator<IteratorL, Container>& lhs, const vector_iterator<IteratorR, Container>& rhs) my_noexcept
+{
+	return lhs.base() == rhs.base();
+}
+
+template <typename Iterator, typename Container>
+inline bool operator==(const vector_iterator<Iterator, Container>& lhs, const vector_iterator<Iterator, Container>& rhs) my_noexcept
+{
+	return rhs.base() == lhs.base();
+}
+
+template <typename IteratorL, typename IteratorR, typename Container>
+inline bool operator!=(const vector_iterator<IteratorL, Container>& lhs, const vector_iterator<IteratorR, Container>& rhs) my_noexcept
+{
+	return lhs.base() != rhs.base();
+}
+
+template <typename Iterator, typename Container>
+inline bool operator!=(const vector_iterator<Iterator, Container>& lhs, const vector_iterator<Iterator, Container>& rhs) my_noexcept
+{
+	return rhs.base() != lhs.base();
+}
+
+template <typename IteratorL, typename IteratorR, typename Container>
+inline bool operator<(const vector_iterator<IteratorL, Container>& lhs, const vector_iterator<IteratorR, Container>& rhs) my_noexcept
+{
+	return lhs.base() < rhs.base();
+}
+
+template <typename Iterator, typename Container>
+inline bool operator<(const vector_iterator<Iterator, Container>& lhs, const vector_iterator<Iterator, Container>& rhs) my_noexcept
+{
+	return rhs.base() < lhs.base();
+}
+
+template <typename IteratorL, typename IteratorR, typename Container>
+inline bool operator>(const vector_iterator<IteratorL, Container>& lhs, const vector_iterator<IteratorR, Container>& rhs) my_noexcept
+{
+	return lhs.base() > rhs.base();
+}
+
+template <typename Iterator, typename Container>
+inline bool operator>(const vector_iterator<Iterator, Container>& lhs, const vector_iterator<Iterator, Container>& rhs) my_noexcept
+{
+	return rhs.base() > lhs.base();
+}
+
+template <typename IteratorL, typename IteratorR, typename Container>
+inline bool operator<=(const vector_iterator<IteratorL, Container>& lhs, const vector_iterator<IteratorR, Container>& rhs) my_noexcept
+{
+	return lhs.base() <= rhs.base();
+}
+
+template <typename Iterator, typename Container>
+inline bool operator<=(const vector_iterator<Iterator, Container>& lhs, const vector_iterator<Iterator, Container>& rhs) my_noexcept
+{
+	return rhs.base() <= lhs.base();
+}
+
+template <typename IteratorL, typename IteratorR, typename Container>
+inline bool operator>=(const vector_iterator<IteratorL, Container>& lhs, const vector_iterator<IteratorR, Container>& rhs) my_noexcept
+{
+	return lhs.base() >= rhs.base();
+}
+
+template <typename Iterator, typename Container>
+inline bool operator>=(const vector_iterator<Iterator, Container>& lhs, const vector_iterator<Iterator, Container>& rhs) my_noexcept
+{
+	return rhs.base() >= lhs.base();
+}
+
 }
