@@ -1,3 +1,6 @@
+#ifndef ITERATOR_TAGS_HPP
+#define ITERATOR_TAGS_HPP
+
 namespace ft
 {
 
@@ -28,3 +31,5 @@ struct random_access_iterator_tag: public bidirection_iterator_tag
 };
 
 }
+
+#endif

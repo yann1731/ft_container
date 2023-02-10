@@ -1,3 +1,6 @@
+#ifndef ITERATOR_TRAIT_HPP
+#define ITERATOR_TRAIT_HPP
+
 #include "iterator_tags.hpp"
 namespace ft
 {
@@ -37,3 +40,5 @@ struct iterator_traits<const T*>
 
 
 }
+
+#endif

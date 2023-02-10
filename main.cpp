@@ -7,7 +7,9 @@
 int main(void)
 {
 
-    ft::vector<std::vector<int> > vec;
+    ft::vector<int> vec;
+
+    
 
     return 0;
 }

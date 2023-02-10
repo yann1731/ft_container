@@ -1,3 +1,6 @@
+#ifndef VECTOR_ITERATOR_HPP
+#define VECTOR_ITERATOR_HPP
+
 #include "iterator.hpp"
 #include "iterator_trait.hpp"
 
@@ -22,7 +25,7 @@ public:
 	typedef typename traits_type::reference 			reference;
 	typedef typename traits_type::pointer 				pointer;
 
-	vector_iterator() my_noexcept: current(Iterator) {}
+	vector_iterator() my_noexcept: current(Iterator()) {}
 
 	vector_iterator(const Iterator& iter) my_noexcept: current(iter) {}
 
@@ -166,3 +169,5 @@ inline bool operator>=(const vector_iterator<Iterator, Container>& lhs, const ve
 }
 
 }
+
+#endif

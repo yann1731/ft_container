@@ -1,3 +1,6 @@
+#ifndef ITERATOR_HPP
+#define ITERATOR_HPP
+
 #include <cstddef>
 #include "iterator_tags.hpp"
 namespace ft
@@ -15,3 +18,5 @@ struct iterator
 
 
 }
+
+#endif
