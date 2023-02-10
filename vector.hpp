@@ -1,7 +1,9 @@
 #include <memory>
+#include "iterator.hpp"
 #include <iterator>
 
 #define my_noexcept throw();
+using ft::iterator;
 
 namespace ft
 {
@@ -10,9 +12,8 @@ template <typename T, class Allocator>
 
 struct _vector_base
 {
-	typedef Allocator                               allocator_type;
-    typedef allocator_traits<allocator_type>         __alloc_traits;
-    typedef typename __alloc_traits::size_type       size_type;
+	typedef typename std::allocator_traits<Allocator>           			T_Alloc_Type;
+    typedef typename std::allocator_traits<T_Alloc_Type>::pointer      		pointer;
 
 	struct vec_impl_data
 	{
@@ -61,15 +62,19 @@ struct _vector_base
 	}
 
 	_vector_base() {};
+
 	_vector_base(const Allocator& alloc): mImpl(alloc){};
+
 	_vector_base(size_t n): mImpl()
 	{
 		create_storage(n);
 	}
+
 	_vector_base(size_t, const Allocator& alloc): mImpl()
 	{
 		create_storage(n);
 	}
+
 	~_vector_base()
 	{
 		deallocate(mImpl._start, mImpl._end - mImpl._start);
@@ -79,16 +84,17 @@ struct _vector_base
 
 	pointer allocate(size_t n)
 	{
-		typedef __gnu_cxx::__alloc_traits<T_Alloc_Type> _Tr;
+		typedef std::allocator_traits<T_Alloc_Type> _Tr;
 		return (n != 0 ? _Tr::allocate(mImpl, n) : pointer());
 	}
 
 	void deallocate(pointer p, size_t n)
 	{
-		typedef __gnu_cxx::__alloc_traits<T_Alloc_Type> _Tr;
+		typedef std::allocator_traits<T_Alloc_Type> _Tr;
 		if (p)
 	  		_Tr::deallocate(mImpl, p, n);
 	}
+
 protected:
 	void create_storage(size_t n)
 	{
@@ -98,30 +104,33 @@ protected:
 	}
 };
 
-template <typename T, class Allocator = std::allocator<T> >
+/***** START OF VECTOR *****/
 
-class vector: protected _vector_base
+template <typename T, class Allocator = std::allocator<T> >
+class vector: protected _vector_base<T, Allocator>
 {
 	typedef _vector_base<T, Allocator>					_Base;
-	typedef _Base::T_Alloc_Type							T_Alloc_Type;
-	typedef __gnu_cxx::__alloc_traits<T_Alloc_Type>		_Alloc_traits;
+	typedef typename _Base::T_Alloc_Type				T_Alloc_Type;
+	typedef std::allocator_traits<T_Alloc_Type>			Alloc_traits;
 
 protected:
-	typedef Allocator allocator_type;
-	typedef size_t size_type;
-	typedef std::ptrdiff_t difference_type;
-	typedef value_type& reference;
-	typedef const value_type& const_reference;
-	typedef typename std::allocator_traits<Allocator>::pointer pointer;
-	typedef typename std::allocator_traits<Allocator>::const_pointer const_pointer;
-	typedef std::iterator<std::random_access_iterator_tag, value_type, difference_type, value_type*, value_type&> iterator;
-	typedef const std::iterator<std::random_access_iterator_tag, const value_type, difference_type, const value_type*, const value_type&> const_iterator;
-	typedef std::reverse_iterator<iterator> reverse_iterator;
-	typedef std::reverse_iterator<const_iterator> const_reverse_iterator;
+	typedef T											value_type;
+	typedef typename _Base::pointer						pointer;
+	typedef typename Alloc_traits::const_pointer 		const_pointer;
+	typedef typename Alloc_traits::reference			reference;
+	typedef typename Alloc_traits::const_reference		const_reference;
+	//iterator gonna use __normal_iterator from iterator_ref.hpp
+	//const iterator
+	//reverse_iterator
+	//const reverse_iterator
+	typedef size_t										size_type;
+	typedef ptrdiff_t									difference_type;
+	typedef Allocator									allocator_type;
 
-	pointer begin_;
-	pointer end_;
-	pointer last_;
+	using _Base::allocate;
+	using _Base::deallocate;
+	using _Base::mImpl;
+	using _Base::_M_get_T_Allocator;
 
 public:
 	vector()
@@ -130,7 +139,7 @@ public:
 	};
 
 	
-	explicit vector(const Allocator& alloc)
+	explicit vector(const Allocator& alloc) my_noexcept: _Base(alloc)
 	{
 		
 	};
