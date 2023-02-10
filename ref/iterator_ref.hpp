@@ -738,8 +738,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	      return *this;
       }
 
-      __normal_iterator
-      operator++(int) _GLIBCXX_NOEXCEPT
+      __normal_iterator operator++(int) _GLIBCXX_NOEXCEPT
       {
         return __normal_iterator(_M_current++);
       }

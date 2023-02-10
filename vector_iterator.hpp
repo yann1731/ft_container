@@ -25,6 +25,72 @@ public:
 	vector_iterator() my_noexcept: current(Iterator) {}
 
 	vector_iterator(const Iterator& iter) my_noexcept: current(iter) {}
+
+	// vector_iterator(const vector_iterator<Iterator, Container>)
+
+	reference operator*() const my_noexcept
+	{
+		return *current;
+	}
+
+	pointer operator->() const my_noexcept
+	{
+		return current;
+	}
+
+	vector_iterator& operator++() my_noexcept
+	{
+		++current;
+		return *this;
+	}
+
+	vector_iterator operator++(int) my_noexcept
+	{
+		return (vector_iterator(current++));
+	}
+
+	vector_iterator& operator--() my_noexcept
+	{
+		--current;
+		return *this;
+	}
+
+	vector_iterator operator--(int) my_noexcept
+	{
+		return (vector_iterator(current++));
+	}
+
+	reference operator[](difference_type n) const my_noexcept
+	{
+		return current[n];
+	}
+
+	vector_iterator& operator+=(difference_type n) my_noexcept
+    {
+        current += n;
+		return *this;
+    }
+
+	vector_iterator operator+(difference_type n) const my_noexcept
+    {
+        return vector_iterator(current + n);
+    }
+
+	vector_iterator& operator-=(difference_type n) my_noexcept
+	{
+		current -= n;
+		return *this;
+	}
+
+	vector_iterator operator-(difference_type n) const my_noexcept
+	{
+		return vector_iterator(current - n);
+	}
+
+	const Iterator& base() const my_noexcept
+	{
+		return current;
+	}
 };
 
 }
