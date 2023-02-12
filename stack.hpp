@@ -5,7 +5,6 @@
 
 namespace ft
 {
-
 template <typename T, class _Container = std::vector<T> >
 	class stack
 	{

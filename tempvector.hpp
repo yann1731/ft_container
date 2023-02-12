@@ -6,7 +6,6 @@ using ft::iterator;
 
 namespace ft
 {
-
 template <typename T, class Allocator>
 
 struct _vector_base

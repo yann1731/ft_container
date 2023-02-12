@@ -12,13 +12,13 @@ template <typename Iterator>
     
     protected:
         Iterator current;
-        typedef iterator_traits<Iterator> traits_type;
+        typedef iterator_traits<Iterator>               traits_type;
 
     public:
         typedef Iterator iterator_type;
-        typedef typename traits_type::pointer pointer;
-        typedef typename traits_type::difference_type difference_type;
-        typedef typename traits_type::reference reference;
+        typedef typename traits_type::pointer           pointer;
+        typedef typename traits_type::difference_type   difference_type;
+        typedef typename traits_type::reference         reference;
 
     reverse_iterator(): current() { }
 
@@ -135,7 +135,7 @@ template<typename Iterator>
 template<typename Iterator>
     inline bool operator<=(const reverse_iterator<Iterator>& lhs, const reverse_iterator<Iterator>& rhs)
     {
-        return !(rhs < lhs)
+        return !(rhs < lhs);
     }
 
 template<typename Iterator>

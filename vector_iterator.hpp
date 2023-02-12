@@ -7,7 +7,6 @@
 
 namespace ft
 {
-
 template <typename Iterator, typename Container>
 class vector_iterator
 {
@@ -166,7 +165,6 @@ inline bool operator>=(const vector_iterator<Iterator, Container>& lhs, const ve
 {
 	return rhs.base() >= lhs.base();
 }
-
 }
 
 #endif

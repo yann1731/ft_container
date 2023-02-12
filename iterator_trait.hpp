@@ -3,7 +3,6 @@
 
 namespace ft
 {
-
 struct output_iterator_tag
 {
 
@@ -61,8 +60,6 @@ struct iterator_traits<const T*>
     typedef T*                        		pointer;
     typedef T&                        		reference;
 };	
-
-
 }
 
 #endif

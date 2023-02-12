@@ -6,7 +6,6 @@
 
 namespace ft
 {
-
 template <class Category, class T, class Distance = std::ptrdiff_t, class Pointer = T*, class Reference = T&>
 struct iterator
 {
@@ -16,8 +15,6 @@ struct iterator
 	typedef Reference	reference;
 	typedef Category	iterator_category;
 };
-
-
 }
 
 #endif
