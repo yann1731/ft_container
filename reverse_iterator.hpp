@@ -11,7 +11,7 @@ template <typename Iterator>
         friend class reverse_iterator;
     
     protected:
-        Iter current;
+        Iterator current;
         typedef iterator_traits<Iterator> traits_type;
 
     public:
