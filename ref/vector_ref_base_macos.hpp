@@ -77,21 +77,30 @@ protected:
 
     _LIBCPP_INLINE_VISIBILITY
     allocator_type& __alloc() _NOEXCEPT
-        {return __end_cap_.second();}
+    {
+        return __end_cap_.second();
+    }
     _LIBCPP_INLINE_VISIBILITY
     const allocator_type& __alloc() const _NOEXCEPT
-        {return __end_cap_.second();}
+    {
+        return __end_cap_.second();
+    }
     _LIBCPP_INLINE_VISIBILITY
     pointer& __end_cap() _NOEXCEPT
-        {return __end_cap_.first();}
+    {
+        return __end_cap_.first();
+    }
     _LIBCPP_INLINE_VISIBILITY
     const pointer& __end_cap() const _NOEXCEPT
-        {return __end_cap_.first();}
+    {
+        return __end_cap_.first();
+    }
 
     _LIBCPP_INLINE_VISIBILITY
-    __vector_base()
-        _NOEXCEPT_(is_nothrow_default_constructible<allocator_type>::value);
+    __vector_base() _NOEXCEPT_(is_nothrow_default_constructible<allocator_type>::value);
+
     _LIBCPP_INLINE_VISIBILITY __vector_base(const allocator_type& __a);
+    
     ~__vector_base();
 
     _LIBCPP_INLINE_VISIBILITY
