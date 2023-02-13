@@ -23,28 +23,17 @@ template <class T, class Allocator>
 		typedef const_pointer 						const_iterator;
 
 		pointer _start;
+		pointer _finish;
 		pointer _end;
-		pointer _end_ptr;
-		allocator_type _end_type;
-
-		allocator_type& alloc() my_noexcept
-		{
-			return _end_type;
-		}
-
-		const allocator_type& alloc() const my_noexcept
-		{
-			return _end_type;
-		}
 
 		pointer& _end_cap() my_noexcept
 		{
-			return _end_ptr;
+			return _end;
 		}
 
 		const pointer& _end_cap() const my_noexcept
 		{
-			return _end_ptr;
+			return _end;
 		}
 
 		_vector_base();
@@ -60,8 +49,12 @@ template <class T, class Allocator>
 
 		size_type capacity() const my_noexcept
 		{
-			return static_cast<size_type>()
+			return static_cast<size_type>(_end - _start);
 		}
+
+		void destruct_at_end(pointer new_last) my_noexcept;
+
+		
 	};
 
 };
