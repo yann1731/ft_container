@@ -24,11 +24,43 @@ template <class T, class Allocator>
 
 		pointer _start;
 		pointer _end;
-		pointer _finish;
+		pointer _end_ptr;
+		allocator_type _end_type;
 
 		allocator_type& alloc() my_noexcept
 		{
-			return _end;
+			return _end_type;
+		}
+
+		const allocator_type& alloc() const my_noexcept
+		{
+			return _end_type;
+		}
+
+		pointer& _end_cap() my_noexcept
+		{
+			return _end_ptr;
+		}
+
+		const pointer& _end_cap() const my_noexcept
+		{
+			return _end_ptr;
+		}
+
+		_vector_base();
+
+		_vector_base(const allocator_type& alloc);
+
+		~_vector_base();
+
+		void clear() my_noexcept
+		{
+			destruct_at_end(_begin);
+		}
+
+		size_type capacity() const my_noexcept
+		{
+			return static_cast<size_type>()
 		}
 	};
 
