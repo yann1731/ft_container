@@ -25,17 +25,28 @@ namespace ft
 		typedef typename reverse_iterator<const_iterator> 	const_reverse_iterator;
 
 	private:
-		pointer _begin;
-		pointer _last;
-		pointer _end;
+		allocator_type 	_alloc;
+		pointer 		_begin;
+		pointer 		_last;
+		pointer 		_end;
 	
 	public:
-		vector();
+		vector():_alloc(Allocator()), _alloc(Allocator), _begin(_alloc.allocate(0)), _last(_begin), _end(_begin) {};
 
-		vector(const allocator_type& alloc) {};
+		explicit vector(const allocator_type& alloc): _alloc(alloc), _begin(_alloc.allocator(0)), _last(_begin), _end(_begin) {};
 
-		vector(size_type n) {};
+		explicit vector(size_type count, const T& value = T(), const Allocator& alloc = Allocator()): _alloc(alloc), _begin(_alloc.allocator(count), _last(_begin), _end(_begin) {
+			alloc_range(count, value, _alloc);
+		};
 
-		vector()
-	}
+		explicit vector(size_type n) {};
+
+
+	template<class InputIt>
+		vector(InputIt first, InputIt last, const Allocator& alloc = Allocator());
+
+		vector( const vector& other );
+
+		~vector() {};
+	};
 };
