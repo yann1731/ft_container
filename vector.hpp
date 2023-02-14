@@ -1,60 +1,41 @@
 #include <memory>
 #include "reverse_iterator.hpp"
 #include "vector_iterator.hpp"
-#include <iterator>
+#include "pair.hpp"
 
 using ft::iterator;
 
 namespace ft
 {
-template <class T, class Allocator>
-	class _vector_base
+	template<class T, class Allocator = std::allocator<T> >
+	class vector
 	{
 	public:
-		typedef Allocator 							allocator_type;
-		typedef typename Allocator::size_type 		size_type;
-	protected:
-		typedef T 									value_type;
-		typedef value_type& 						reference;
-		typedef const value_type& 					const_reference;
-		typedef typename Allocator::pointer 		pointer;
-		typedef typename Allocator::const_pointer 	const_pointer;
-		typedef pointer 							iterator;
-		typedef const_pointer 						const_iterator;
+		typedef T 											value_type;
+		typedef Allocator 									allocator_type;
+		typedef typename allocator_type::reference 			reference;
+		typedef typename allocator_type::const_reference 	const_reference;
+		typedef typename allocator_type::size_type 			size_type;
+		typedef typename allocator_type::difference_type 	difference_type;
+		typedef typename allocator_type::pointer 			pointer;
+		typedef typename allocator_type::const_pointer 		const_pointer;
+		typedef typename iterator<pointer> 					iterator;
+		typedef typename iterator<const_pointer> 			const_iterator;
+		typedef typename reverse_iterator<iterator> 		reverse_iterator;
+		typedef typename reverse_iterator<const_iterator> 	const_reverse_iterator;
 
-		pointer _start;
-		pointer _finish;
+	private:
+		pointer _begin;
+		pointer _last;
 		pointer _end;
+	
+	public:
+		vector();
 
-		pointer& _end_cap() my_noexcept
-		{
-			return _end;
-		}
+		vector(const allocator_type& alloc) {};
 
-		const pointer& _end_cap() const my_noexcept
-		{
-			return _end;
-		}
+		vector(size_type n) {};
 
-		_vector_base();
-
-		_vector_base(const allocator_type& alloc);
-
-		~_vector_base();
-
-		void clear() my_noexcept
-		{
-			destruct_at_end(_begin);
-		}
-
-		size_type capacity() const my_noexcept
-		{
-			return static_cast<size_type>(_end - _start);
-		}
-
-		void destruct_at_end(pointer new_last) my_noexcept;
-
-		
-	};
-
+		vector()
+	}
 };
