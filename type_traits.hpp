@@ -27,12 +27,12 @@ struct integral_constant
 
     static const T value = v;
 
-    const operator value_type() const my_noexcept
+    operator value_type() const my_noexcept
     {
         return value;
     }
 
-    const value_type operator()() const my_noexcept
+    value_type operator()() const my_noexcept
     {
         return value;
     }

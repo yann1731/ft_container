@@ -35,11 +35,13 @@ namespace ft
 
 		explicit vector(const allocator_type& alloc): _alloc(alloc), _begin(_alloc.allocator(0)), _last(_begin), _end(_begin) {};
 
-		explicit vector(size_type count, const T& value = T(), const Allocator& alloc = Allocator()): _alloc(alloc), _begin(_alloc.allocator(count), _last(_begin), _end(_begin) {
+		explicit vector(size_type count, const T& value = T(), const Allocator& alloc = Allocator()) {
 			alloc_range(count, value, _alloc);
 		};
 
-		explicit vector(size_type n) {};
+		explicit vector(size_type n) {
+			
+		};
 
 
 	template<class InputIt>
@@ -48,5 +50,100 @@ namespace ft
 		vector( const vector& other );
 
 		~vector() {};
+
+		vector& operator=(const vector& other) {
+
+		};
+
+		void assign(size_type count, const T& value) {
+
+		};
+
+	template< class InputIt >
+		void assign(InputIt first, InputIt last) {
+
+		};
+
+		allocator_type get_allocator(void) const {
+			return Allocator;
+		};
+
+		reference at(size_type pos) {
+			//std::out_of_range if !(pos < size()).
+		};
+
+		const_reference at(size_type pos) const {
+			//std::out_of_range if !(pos < size()).
+		};
+
+		reference operator[](size_type pos) {
+			//undefined behavior if trying to access element out of range
+		};
+
+		const_reference operator[](size_type pos) {
+			//undefined behavior if trying to access element out of range
+		};
+
+		reference front(void) {
+
+		};
+
+		const_reference front(void) const {
+
+		};
+
+		reference back(void) {
+
+		};
+
+		const_reference back(void) const {
+
+		};
+
+		T* data(void) {
+
+		};
+
+		const T* data(void) const {
+
+		};
+
+		iterator begin(void) {
+
+		};
+
+		const_iterator begin(void) {
+
+		};
+
+		iterator end(void) {
+
+		};
+
+		const_iterator end(void) const {
+
+		};
+
+		reverse_iterator rbegin(void) {
+
+		};
+
+		const_reverse_iterator rbegin(void) const {
+
+		};
+
+		reverse_iterator rend(void) {
+
+		};
+
+		const_reverse_iterator rend(void) const {
+
+		};
+
+		bool empty(void) const {
+
+		};
+
+		
 	};
 };
