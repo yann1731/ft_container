@@ -1,3 +1,8 @@
+#include "reverse_iterator.hpp"
+
+namespace ft
+{
+
 template <class T, class Allocator>
 	class _vector_base
 	{
@@ -14,27 +19,19 @@ template <class T, class Allocator>
 		typedef const_pointer 						const_iterator;
 
 		pointer 						_begin;
-		pointer 						_end;
-		pair<pointer, allocator_type> 	_end_cap;
+		pointer 						_last;
+		pointer							_end;
+		allocator_type					_alloc;
 
-		allocator_type& alloc() my_noexcept
-		{
-			return _end_cap.second;
-		}
-
-		const allocator_type& alloc() const my_noexcept
-		{
-			return _end_cap.second;
-		}
 
 		pointer& _end_cap() my_noexcept
 		{
-			return _end_cap.first;
+			return _end;
 		}
 
 		const pointer& _end_cap() const my_noexcept
 		{
-			return _end_cap.first;
+			return _end;
 		}
 
 		_vector_base();
@@ -57,3 +54,4 @@ template <class T, class Allocator>
 
 		
 	};
+}
