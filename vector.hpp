@@ -7,6 +7,110 @@ using ft::iterator;
 
 namespace ft
 {
+
+	// template<typename _Integer>
+	//     void _M_initialize_dispatch(_Integer __n, _Integer __value, __true_type)
+	//     {
+	//         this->_M_impl._M_start = _M_allocate(_S_check_init_len(static_cast<size_type>(__n), _M_get_Tp_allocator()));
+	//         this->_M_impl._M_end_of_storage = this->_M_impl._M_start + static_cast<size_type>(__n);
+	//         _M_fill_initialize(static_cast<size_type>(__n), __value);
+	//     }
+
+	// 	template<typename _InputIterator>
+	//     void _M_initialize_dispatch(_InputIterator __first, _InputIterator __last, __false_type)
+	//     {
+	//         _M_range_initialize(__first, __last, std::__iterator_category(__first));
+	//     }
+
+	// 	template<typename _InputIterator>
+	//     void _M_range_initialize(_InputIterator __first, _InputIterator __last, std::input_iterator_tag)
+	//     {
+	//         __try
+    //         {
+	//             for (; __first != __last; ++__first)
+    //                 push_back(*__first);
+	//         }
+    //         __catch(...)
+    //         {
+	//             clear();
+	//         __throw_exception_again;
+	//         }
+	//     }
+
+	// 	template<typename _ForwardIterator>
+	//     void _M_range_initialize(_ForwardIterator __first, _ForwardIterator __last, std::forward_iterator_tag)
+	//     {
+	//         const size_type __n = std::distance(__first, __last);
+	//         this->_M_impl._M_start = this->_M_allocate(_S_check_init_len(__n, _M_get_Tp_allocator()));
+	//         this->_M_impl._M_end_of_storage = this->_M_impl._M_start + __n;
+	//         this->_M_impl._M_finish = std::__uninitialized_copy_a(__first, __last, this->_M_impl._M_start, _M_get_Tp_allocator());
+	//     }
+
+	// 	 void _M_fill_initialize(size_type __n, const value_type& __value)
+    //     {
+	//         this->_M_impl._M_finish = std::__uninitialized_fill_n_a(this->_M_impl._M_start, __n, __value, _M_get_Tp_allocator());
+    //     }
+
+	// 	template<typename _Integer>
+	//     void _M_assign_dispatch(_Integer __n, _Integer __val, __true_type)
+	//     {
+    //         _M_fill_assign(__n, __val);
+    //   	}
+
+	// 	template<typename _InputIterator>
+	//     void _M_assign_dispatch(_InputIterator __first, _InputIterator __last, __false_type)
+	//     {
+    //         _M_assign_aux(__first, __last, std::__iterator_category(__first));
+    //     }
+
+	// 	template<typename _Integer>
+    //   void _M_insert_dispatch(iterator __pos, _Integer __n, _Integer __val, __true_type)
+	//     {
+    //         _M_fill_insert(__pos, __n, __val);
+    //   	}
+
+	// template<typename _InputIterator>
+	//     void _M_insert_dispatch(iterator __pos, _InputIterator __first, _InputIterator __last, __false_type)
+	//     {
+	//         _M_range_insert(__pos, __first, __last, std::__iterator_category(__first));
+	//     }
+
+	// 	size_type _M_check_len(size_type __n, const char* __s) const
+    //  	{
+	//       if (max_size() - size() < __n)
+	//           __throw_length_error(__N(__s));
+	//       const size_type __len = size() + (std::max)(size(), __n);
+	//       return (__len < size() || __len > max_size()) ? max_size() : __len;
+    //  	}
+
+	// 	static size_type _S_check_init_len(size_type __n, const allocator_type& __a)
+    //   	{
+	//       if (__n > _S_max_size(_Tp_alloc_type(__a)))
+	//           __throw_length_error(
+	//       __N("cannot create std::vector larger than max_size()"));
+	//       return __n;
+    //   	}
+
+	// 	static size_type _S_max_size(const _Tp_alloc_type& __a) _GLIBCXX_NOEXCEPT
+    //   	{
+	//       // std::distance(begin(), end()) cannot be greater than PTRDIFF_MAX,
+	//       // and realistically we can't store more than PTRDIFF_MAX/sizeof(T)
+	//       // (even if std::allocator_traits::max_size says we can).
+	//       const size_t __diffmax = __gnu_cxx::__numeric_traits<ptrdiff_t>::__max / sizeof(_Tp);
+	//       const size_t __allocmax = _Alloc_traits::max_size(__a);
+	//       return (std::min)(__diffmax, __allocmax);
+    //   	}
+
+	// 	void _M_erase_at_end(pointer __pos) _GLIBCXX_NOEXCEPT
+    //   	{
+	//       if (size_type __n = this->_M_impl._M_finish - __pos)
+	//       {
+	//           std::_Destroy(__pos, this->_M_impl._M_finish, _M_get_Tp_allocator());
+	//           this->_M_impl._M_finish = __pos;
+	//           _GLIBCXX_ASAN_ANNOTATE_SHRINK(__n);
+	//       }
+    //   	}
+
 	template<class T, class Allocator = std::allocator<T> >
 	class vector
 	{
@@ -29,27 +133,39 @@ namespace ft
 		pointer 		_begin;
 		pointer 		_last;
 		pointer 		_end;
+		alloc_range(size_type count, const T& value = T()) {
+			_begin = _alloc.allocate(count);
+			_alloc.construct(_begin, value);
+		}
 	
 	public:
-		vector(): {};
+		vector(): _alloc(Allocator()) {};
 
 		explicit vector(const allocator_type& alloc): _alloc(alloc), _begin(nullptr), _last(nullptr), _end(nullptr) {};
 
-		explicit vector(size_type count, const T& value = T(), const Allocator& alloc = Allocator()) {
-			alloc_range(count, value, _alloc);
+		explicit vector(size_type count, const T& value = T(), const allocator_type& alloc = Allocator()) {
+			_begin = alloc.allocate(count);
+			_last = _begin;
+			_end = _begin + count;
+			alloc.construct(_begin, value);
 		};
-
-		explicit vector(size_type n) {
-			
-		};
-
 
 	template<class InputIt>
-		vector(InputIt first, InputIt last, const Allocator& alloc = Allocator()) {}
+		vector(InputIt first, InputIt last, const allocator_type& alloc = Allocator()) {
+			size_type n = static_cast<size_type>(last - first);
+			_begin = alloc.allocate(n);
+			_last = _begin;
+			_end = _begin + n;
+			alloc.construct(_begin, value);
+		}
 
-		vector( const vector& other ) {}
+		vector(const vector& other) {
+			_begin = alloc.allocate(static_cast<size_type>(other.end() - other.begin()));
+		}
 
-		~vector() {}
+		~vector() {
+
+		}
 
 		vector& operator=(const vector& other) {
 
@@ -65,7 +181,7 @@ namespace ft
 		}
 
 		allocator_type get_allocator(void) const {
-			return Allocator;
+			return _alloc;
 		}
 
 		reference at(size_type pos) {
