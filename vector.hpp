@@ -185,6 +185,67 @@ namespace ft
 
 		}
 
-		
+		iterator erase(iterator pos) {
+			/* Erases the specified elements from the container.
+			1) Removes the element at pos.
+			2) Removes the elements in the range [first, last) */
+		}
+
+		iterator erase(iterator first, iterator last) {
+
+		}
+
+		void push_back(const T& value) {
+			//appends the given element value to the end of the container. the new element is initialized as a copy of value
+			//value is moved into the new element. If the new size() is greater than capacity() then all
+			//iterators and references (including the past-the-end iterator) are invalidated.
+			//Otherwise only the past-the-end iterator is invalidated.
+		}
+
+		void pop_back() {
+			//Removes the last element of the container. UB if container empty
+		}
+
+		void resize(size_type count, T value = T()) {
+			/* Resizes the container to contain count elements.
+			If the current size is greater than count, the container is reduced to its first count elements.
+			If the current size is less than count,
+			1) additional default-inserted elements are appended
+			2) additional copies of value are appended.*/
+		}
+
+		void swap(vector& other) {
+
+		}
 	};
+
+template<class T, class Alloc>
+	bool operator==(const vector<T, Alloc>& lhs, const std::vector<T, Alloc>& rhs) {
+
+	}
+
+template<class T, class Alloc>
+	bool operator!=(const vector<T, Alloc>& lhs, const std::vector<T, Alloc>& rhs) {
+
+	}
+
+template<class T, class Alloc>
+	bool operator<(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs) {
+
+	}
+
+template<class T, class Alloc>
+	bool operator<=(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs) {
+
+	}
+
+template<class T, class Alloc>
+	bool operator>(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs) {
+
+	}
+
+template<class T, class Alloc>
+	bool operator>=(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs) {
+		
+	}
 };
