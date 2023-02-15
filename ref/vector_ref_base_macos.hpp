@@ -114,8 +114,9 @@ protected:
 
     _LIBCPP_INLINE_VISIBILITY
     void __copy_assign_alloc(const __vector_base& __c)
-        {__copy_assign_alloc(__c, integral_constant<bool,
-                      __alloc_traits::propagate_on_container_copy_assignment::value>());}
+    {
+        __copy_assign_alloc(__c, integral_constant<bool,__alloc_traits::propagate_on_container_copy_assignment::value>());
+    }
 
     _LIBCPP_INLINE_VISIBILITY
     void __move_assign_alloc(__vector_base& __c)

@@ -31,9 +31,9 @@ namespace ft
 		pointer 		_end;
 	
 	public:
-		vector():_alloc(Allocator()), _alloc(Allocator), _begin(_alloc.allocate(0)), _last(_begin), _end(_begin) {};
+		vector(): {};
 
-		explicit vector(const allocator_type& alloc): _alloc(alloc), _begin(_alloc.allocator(0)), _last(_begin), _end(_begin) {};
+		explicit vector(const allocator_type& alloc): _alloc(alloc), _begin(nullptr), _last(nullptr), _end(nullptr) {};
 
 		explicit vector(size_type count, const T& value = T(), const Allocator& alloc = Allocator()) {
 			alloc_range(count, value, _alloc);
