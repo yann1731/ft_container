@@ -75,10 +75,16 @@ namespace ft
 		}
 
 		reference at(size_type pos) {
+			if (pos < size()) {
+				return _begin[pos]&;
+			}
+			else
+				throw std::out_of_range;
 			//std::out_of_range if !(pos < size()).
 		}
 
 		const_reference at(size_type pos) const {
+			
 			//std::out_of_range if !(pos < size()).
 		}
 
@@ -139,22 +145,26 @@ namespace ft
 		}
 
 		reverse_iterator rend(void) {
-
+			return reverse_iterator(_end);
 		}
 
 		const_reverse_iterator rend(void) const {
-
+			return const_reverse_iterator(_end);
 		}
 
 		bool empty(void) const {
-
+			if (_begin == _end)
+				return true;
+			else
+				return false;
 		}
 
 		size_type size() const {
-			//Returns the number of elements in the container, i.e. std::distance(begin(), end()).
+			return std::distance(_begin, _end); //Returns the number of elements in the container, i.e. std::distance(begin(), end()).
 		}
 
 		size_type max_size() const {
+			return std::numeric_limits<difference_type>::max();
 			//Returns the maximum number of elements the container is able to hold due to system or library implementation limitations, i.e. std::distance(begin(), end()) for the largest container.
 			//This value typically reflects the theoretical limit on the size of the container, at most std::numeric_limits<difference_type>::max(). At runtime, the size of the container may be limited to a value smaller than max_size() by the amount of RAM available.
 		}

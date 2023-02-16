@@ -4,9 +4,9 @@
 int main(void)
 {
 
-    ft::_vector_base<int, std::allocator<int> > vec;
+    ft::vector<int> vec;
 
-    
+    ft::vector<int>::iterator it;
 
     return 0;
 }
