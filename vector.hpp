@@ -57,10 +57,11 @@ namespace ft
 		}
 
 		~vector() {
+			size_type cap = capacity();
 			clear();
 			if (_begin)
 			{
-				_alloc.deallocate(_begin);
+				_alloc.deallocate(_begin, cap);
 				_begin = nullptr;
 				_last = nullptr;
 				_end = nullptr;
@@ -222,13 +223,13 @@ namespace ft
 		}
 
 		size_type capacity() const {
-			 return size_type(_end - _start);
+			 return size_type(_end - _begin);
 			//Returns the number of elements that the container has currently allocated space for.
 		}
 
 		void clear() {
         	for (size_type i = 0; i < size(); ++i) {
-            	m_data[i].~T();
+            	_begin[i].~T();
         	}
 			_last = _begin;
 			/* Erases all elements from the container. After this call, size() returns zero.
