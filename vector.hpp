@@ -58,16 +58,25 @@ namespace ft
 		}
 
 		vector& operator=(const vector& other) {
-
+			if (this == &other)
+				return *this;
+			if (this->size() < other.size())
+				reserve(other.size());
+			for (size_type i; i < other.size(); i++)
+			{
+				this->_begin[i] = other._begin[i];
+			}
+			return *this;
 		}
 
 		void assign(size_type count, const T& value) {
-
+			
+			//Replaces the contents with count copies of value value
 		}
 
 	template< class InputIt >
 		void assign(InputIt first, InputIt last) {
-
+			//Replaces the contents with copies of those in the range [first, last). The behavior is undefined if either argument is an iterator into *this.
 		}
 
 		allocator_type get_allocator(void) const {
@@ -76,7 +85,7 @@ namespace ft
 
 		reference at(size_type pos) {
 			if (pos < size()) {
-				return _begin[pos]&;
+				return _begin[pos];
 			}
 			else
 				throw std::out_of_range;
@@ -84,40 +93,52 @@ namespace ft
 		}
 
 		const_reference at(size_type pos) const {
-			
+			if (pos < size()) {
+				return _begin[pos];
+			}
+			else
+				throw std::out_of_range;
 			//std::out_of_range if !(pos < size()).
 		}
 
 		reference operator[](size_type pos) {
+			return *(this->_begin + pos);
 			//undefined behavior if trying to access element out of range
 		}
 
 		const_reference operator[](size_type pos) const {
+			return *(this->_begin + pos);
 			//undefined behavior if trying to access element out of range
 		}
 
 		reference front(void) {
-
+			return *begin();
 		}
 
 		const_reference front(void) const {
-
+			return *begin();
 		}
 
 		reference back(void) {
-
+			return *(end() - 1);
 		}
 
 		const_reference back(void) const {
-
+			return *(end() - 1);
 		}
 
 		T* data(void) {
-
+			if (this->size() == 0)
+				return nullptr;
+			else
+				_begin;
 		}
 
 		const T* data(void) const {
-
+			if (this->size() == 0)
+				return nullptr;
+			else
+				_begin;
 		}
 
 		iterator begin(void) {
@@ -170,6 +191,18 @@ namespace ft
 		}
 
 		void reserve(size_type new_cap) {
+			if (new_cap < this->size())
+			{
+				return ;
+			}
+			else
+			{
+				pointer _new_begin;
+				// _new_begin = _alloc.allocate(new_cap);
+				std::uninitialized_copy(iterator(_begin), iterator(_last), iterator(_new_begin));
+				_alloc.deallocate(_begin);
+				_begin = _new_begin;
+			}
 			/* Increase the capacity of the vector (the total number of elements that the vector can hold without requiring reallocation) to a value that's greater or equal to new_cap. If new_cap is greater than the current capacity(), new storage is allocated, otherwise the function does nothing.
 			reserve() does not change the size of the vector.
 			If new_cap is greater than capacity(), all iterators, including the past-the-end iterator, and all references to the elements are invalidated. Otherwise, no iterators or references are invalidated.
@@ -189,16 +222,16 @@ namespace ft
 		}
 
 		iterator insert(const iterator pos, const T& value) {
-
+				//inserts value before pos.
 		}
 
 		iterator insert(const iterator pos, size_type count, const T& value) {
-
+			//inserts count copies of the value before pos
 		}
 
 	template< class InputIt >
 		iterator insert(const_iterator pos, InputIt first, InputIt last) {
-
+			//inserts elements from range [first, last) before pos.
 		}
 
 		iterator erase(iterator pos) {
