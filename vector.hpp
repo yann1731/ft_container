@@ -57,15 +57,8 @@ namespace ft
 		}
 
 		~vector() {
-			size_type cap = capacity();
 			clear();
-			if (_begin)
-			{
-				_alloc.deallocate(_begin, cap);
-				_begin = nullptr;
-				_last = nullptr;
-				_end = nullptr;
-			}
+			deallocate_data();
 		}
 
 		vector& operator=(const vector& other) {
@@ -80,8 +73,61 @@ namespace ft
 			return *this;
 		}
 
+		/******************************************* LINUX IMPLEMENTATION FOR USE IN ASSIGN *********************************************/
+
+	// 	assign(_InputIterator __first, _InputIterator __last)
+	//     {
+	//         // Check whether it's an integral type.  If so, it's not an iterator.
+	//         typedef typename std::__is_integer<_InputIterator>::__type _Integral;
+	//         _M_assign_dispatch(__first, __last, _Integral());
+	//     }
+
+	// 	template<typename _Integer>
+	//     void _M_assign_dispatch(_Integer __n, _Integer __val, __true_type)
+	//     {
+    //         _M_fill_assign(__n, __val);
+    //     }
+
+	// 	_M_fill_assign(size_t __n, const value_type& __val)
+    // 	{
+    // 	  	if (__n > capacity())
+	// 		{
+	// 	  		vector __tmp(__n, __val, _M_get_Tp_allocator());
+	// 	  		__tmp._M_impl._M_swap_data(this->_M_impl);
+	// 		}
+    // 	 	else if (__n > size())
+	// 		{
+	// 	  		std::fill(begin(), end(), __val);
+	// 	  		const size_type __add = __n - size();
+	// 	  		this->_M_impl._M_finish = std::__uninitialized_fill_n_a(this->_M_impl._M_finish, __add, __val, _M_get_Tp_allocator());
+	// 		}
+    // 		else
+	// 			_M_erase_at_end(std::fill_n(this->_M_impl._M_start, __n, __val));
+   	// 	}
+
+	// 	_M_erase_at_end(pointer __pos) _GLIBCXX_NOEXCEPT
+    //   	{
+	// 		if (size_type __n = this->_M_impl._M_finish - __pos)
+	//   		{
+	//     		std::_Destroy(__pos, this->_M_impl._M_finish, _M_get_Tp_allocator());
+	//     		this->_M_impl._M_finish = __pos;
+	//   		}
+    //   }
+
+    //   iterator
+    //   _M_erase(iterator __position);
+
+    //   iterator
+    //   _M_erase(iterator __first, iterator __last);
+
+
 		void assign(size_type count, const T& value) {
-			
+			size_type = size();
+			if (count > capacity())
+				reallocate(count);
+			clear();
+			for (size_type i = 0; i < size; i++)
+				_begin[i] = value;
 			//Replaces the contents with count copies of value value
 		}
 
@@ -192,7 +238,7 @@ namespace ft
 		}
 
 		size_type size() const {
-			return std::distance(_begin, _end); //Returns the number of elements in the container, i.e. std::distance(begin(), end()).
+			return (_last - _begin); //Returns the number of elements in the container, i.e. std::distance(begin(), end()).
 		}
 
 		size_type max_size() const {
@@ -203,16 +249,7 @@ namespace ft
 
 		void reserve(size_type new_cap) {
 			if (new_cap > this->capacity()) {
-				pointer _new_begin = _alloc.allocate(new_cap);
-
-        		for (size_type i = 0; i < size(); ++i) {
-            		_alloc.construct(_new_begin + i, std::move(_begin[i]));
-            		_alloc.destroy(_begin + i);
-        		}
-        		_alloc.deallocate(_begin, _end);
-
-        		_begin = _new_begin;
-        		_end = new_cap;
+				reallocate(new_cap);
 			}
 			/* Increase the capacity of the vector (the total number of elements that the vector can hold without requiring reallocation) to a value that's greater or equal to new_cap. If new_cap is greater than the current capacity(), new storage is allocated, otherwise the function does nothing.
 			reserve() does not change the size of the vector.
@@ -281,6 +318,32 @@ namespace ft
 
 		void swap(vector& other) {
 
+		}
+
+	private:
+		void deallocate_data() {
+			if (_begin)
+			{
+				size_type cap = capacity();
+				_alloc.deallocate(_begin, cap);
+				_begin = nullptr;
+				_last = nullptr;
+				_end = nullptr;
+			}
+		}
+
+		void reallocate(size_type new_cap) {
+			pointer _new_begin = _alloc.allocate(new_cap);
+			size_type old_size = size();
+        	for (size_type i = 0; i < size(); ++i) {
+            	_alloc.construct(_new_begin + i, std::move(_begin[i]));
+            	_alloc.destroy(_begin + i);
+        	}
+        	_alloc.deallocate(_begin, capacity());
+
+        	_begin = _new_begin;
+			_last = _begin + old_size;
+        	_end = _begin + new_cap;
 		}
 	};
 
