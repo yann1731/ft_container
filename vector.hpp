@@ -5,6 +5,8 @@
 #include "vector_iterator.hpp"
 #include "pair.hpp"
 #include "algorithm.hpp"
+#include "type_traits.hpp"
+#include <iostream>
 
 namespace ft
 {
@@ -36,24 +38,28 @@ namespace ft
 
 		explicit vector(const allocator_type& alloc): _alloc(alloc), _begin(nullptr), _last(nullptr), _end(nullptr) {};
 
-		explicit vector(size_type count, const T& value = T(), const allocator_type& alloc = Allocator()) {
-			_begin = alloc.allocate(count);
+		explicit vector(size_type count, const T& value = T(), const allocator_type& alloc = Allocator()): _alloc(alloc) {
+			_begin = _alloc.allocate(count);
 			_last = _begin + count;
 			_end = _begin + count;
-			alloc.construct(_begin, value);
+			for (size_type i = 0; i < count; i++)
+				_alloc.construct(_begin + i, value);
 		};
 
 	template<class InputIt>
-		vector(InputIt first, InputIt last, const allocator_type& alloc = Allocator()) {
-			size_type n = static_cast<size_type>(last - first);
-			_begin = alloc.allocate(n);
-			_last = _begin;
-			_end = _begin + n;
-			alloc.construct(_begin, *_begin);
+		vector(InputIt first, typename enable_if<!is_integral<InputIt>::value, InputIt>::type last, const allocator_type& alloc = Allocator()): _alloc(alloc) {
+			size_type n = std::distance(first, last);
+			_begin = _alloc.allocate(n);
+			_last = _begin + n;
+			_end = _last;
+			std::copy(first, last, _begin);
 		}
 
-		vector(const vector& other) {
-			_begin = _alloc.allocate(static_cast<size_type>(other.end() - other.begin()));
+		vector(const vector& other): _alloc(other.get_allocator()) {
+			_begin = _alloc.allocate(other.size());
+			_last = _begin + other.size();
+			_end = _begin + other.capacity();
+			*this = other;
 		}
 
 		~vector() {
@@ -122,11 +128,11 @@ namespace ft
 
 
 		void assign(size_type count, const T& value) {
-			size_type = size();
+			size_type old_size = size();
 			if (count > capacity())
 				reallocate(count);
 			clear();
-			for (size_type i = 0; i < size; i++)
+			for (size_type i = 0; i < old_size; i++)
 				_begin[i] = value;
 			//Replaces the contents with count copies of value value
 		}
