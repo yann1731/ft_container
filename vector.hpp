@@ -100,7 +100,7 @@ namespace ft
 				return _begin[pos];
 			}
 			else
-				throw std::out_of_range({"out of range"});
+				throw std::out_of_range("out of range");
 			//std::out_of_range if !(pos < size()).
 		}
 
@@ -272,7 +272,7 @@ namespace ft
 
 template<class T, class Alloc>
 	bool operator==(const ft::vector<T, Alloc>& lhs, const ft::vector<T, Alloc>& rhs) {
-		return (lhs.size() == rhs.size() && std::equal(lhs.begin(), lhs.end(), rhs.begin()));
+		return (lhs.size() == rhs.size() && ft::equal(lhs.begin(), lhs.end(), rhs.begin()));
 	}
 
 template<class T, class Alloc>
@@ -282,7 +282,7 @@ template<class T, class Alloc>
 
 template<class T, class Alloc>
 	bool operator<(const ft::vector<T, Alloc>& lhs, const ft::vector<T, Alloc>& rhs) {
-		return lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+		return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
 	}
 
 template<class T, class Alloc>
