@@ -32,13 +32,13 @@ namespace ft
 		pointer 		_end;
 	
 	public:
-		vector(): _alloc(Allocator()) {};
+		vector(): _alloc(Allocator()), _begin(nullptr), _last(nullptr), _end(nullptr) {};
 
 		explicit vector(const allocator_type& alloc): _alloc(alloc), _begin(nullptr), _last(nullptr), _end(nullptr) {};
 
 		explicit vector(size_type count, const T& value = T(), const allocator_type& alloc = Allocator()) {
 			_begin = alloc.allocate(count);
-			_last = _begin;
+			_last = _begin + count;
 			_end = _begin + count;
 			alloc.construct(_begin, value);
 		};
@@ -57,7 +57,14 @@ namespace ft
 		}
 
 		~vector() {
-
+			clear();
+			if (_begin)
+			{
+				_alloc.deallocate(_begin);
+				_begin = nullptr;
+				_last = nullptr;
+				_end = nullptr;
+			}
 		}
 
 		vector& operator=(const vector& other) {
@@ -194,16 +201,17 @@ namespace ft
 		}
 
 		void reserve(size_type new_cap) {
-			if (new_cap < this->size())
-			{
-				return ;
-			}
-			else
-			{
-				pointer _new_begin;
-				std::uninitialized_copy(iterator(_begin), iterator(_last), iterator(_new_begin));
-				_alloc.deallocate(_begin);
-				_begin = _new_begin;
+			if (new_cap > this->capacity()) {
+				pointer _new_begin = _alloc.allocate(new_cap);
+
+        		for (size_type i = 0; i < size(); ++i) {
+            		_alloc.construct(_new_begin + i, std::move(_begin[i]));
+            		_alloc.destroy(_begin + i);
+        		}
+        		_alloc.deallocate(_begin, _end);
+
+        		_begin = _new_begin;
+        		_end = new_cap;
 			}
 			/* Increase the capacity of the vector (the total number of elements that the vector can hold without requiring reallocation) to a value that's greater or equal to new_cap. If new_cap is greater than the current capacity(), new storage is allocated, otherwise the function does nothing.
 			reserve() does not change the size of the vector.
@@ -214,10 +222,15 @@ namespace ft
 		}
 
 		size_type capacity() const {
+			 return size_type(_end - _start);
 			//Returns the number of elements that the container has currently allocated space for.
 		}
 
 		void clear() {
+        	for (size_type i = 0; i < size(); ++i) {
+            	m_data[i].~T();
+        	}
+			_last = _begin;
 			/* Erases all elements from the container. After this call, size() returns zero.
 			Invalidates any references, pointers, or iterators referring to contained elements. Any past-the-end iterators are also invalidated.  
 			Leaves the capacity() of the vector unchanged (note: the standard's restriction on the changes to capacity is in the specification of vector::reserve, see [1]) */
