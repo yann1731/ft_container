@@ -263,7 +263,6 @@ namespace ft
 				_alloc.construct(_begin + i, *(begin + i + 1));
 			}
 			_alloc.destroy(_begin + size() - 1);
-
 			_last--;
 			/* Erases the specified elements from the container.
 			1) Removes the element at pos.
@@ -356,4 +355,9 @@ template<class T, class Alloc>
 	bool operator>=(const ft::vector<T, Alloc>& lhs, const ft::vector<T, Alloc>& rhs) {
 		return !(lhs < rhs);
 	}
+
+template<class Allocator>
+	class vector<bool, Allocator> {
+
+	};
 };
