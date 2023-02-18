@@ -79,54 +79,6 @@ namespace ft
 			return *this;
 		}
 
-		/******************************************* LINUX IMPLEMENTATION FOR USE IN ASSIGN *********************************************/
-
-	// 	assign(_InputIterator __first, _InputIterator __last)
-	//     {
-	//         // Check whether it's an integral type.  If so, it's not an iterator.
-	//         typedef typename std::__is_integer<_InputIterator>::__type _Integral;
-	//         _M_assign_dispatch(__first, __last, _Integral());
-	//     }
-
-	// 	template<typename _Integer>
-	//     void _M_assign_dispatch(_Integer __n, _Integer __val, __true_type)
-	//     {
-    //         _M_fill_assign(__n, __val);
-    //     }
-
-	// 	_M_fill_assign(size_t __n, const value_type& __val)
-    // 	{
-    // 	  	if (__n > capacity())
-	// 		{
-	// 	  		vector __tmp(__n, __val, _M_get_Tp_allocator());
-	// 	  		__tmp._M_impl._M_swap_data(this->_M_impl);
-	// 		}
-    // 	 	else if (__n > size())
-	// 		{
-	// 	  		std::fill(begin(), end(), __val);
-	// 	  		const size_type __add = __n - size();
-	// 	  		this->_M_impl._M_finish = std::__uninitialized_fill_n_a(this->_M_impl._M_finish, __add, __val, _M_get_Tp_allocator());
-	// 		}
-    // 		else
-	// 			_M_erase_at_end(std::fill_n(this->_M_impl._M_start, __n, __val));
-   	// 	}
-
-	// 	_M_erase_at_end(pointer __pos) _GLIBCXX_NOEXCEPT
-    //   	{
-	// 		if (size_type __n = this->_M_impl._M_finish - __pos)
-	//   		{
-	//     		std::_Destroy(__pos, this->_M_impl._M_finish, _M_get_Tp_allocator());
-	//     		this->_M_impl._M_finish = __pos;
-	//   		}
-    //   }
-
-    //   iterator
-    //   _M_erase(iterator __position);
-
-    //   iterator
-    //   _M_erase(iterator __first, iterator __last);
-
-
 		void assign(size_type count, const T& value) {
 			size_type old_size = size();
 			if (count > capacity())
@@ -139,6 +91,13 @@ namespace ft
 
 	template< class InputIt >
 		void assign(InputIt first, InputIt last) {
+			size_type count = distance(first, last);
+			size_type old_size = size();
+			if (count > capacity())
+				reallocate(count);
+			clear();
+			for (size_type i = 0; i < old_size; i++)
+				_begin[i] = *first;
 			//Replaces the contents with copies of those in the range [first, last). The behavior is undefined if either argument is an iterator into *this.
 		}
 
@@ -290,10 +249,22 @@ namespace ft
 
 	template< class InputIt >
 		iterator insert(const_iterator pos, InputIt first, InputIt last) {
-			//inserts elements from range [first, last) before pos.
+	
 		}
 
 		iterator erase(iterator pos) {
+			size_type index = pos - begin();
+
+			if (index >= size())
+				throw std::out_of_range("Out of range");
+			//inserts elements from range [first, last) before pos.
+			for (size_type i = index; i < size(); i++) {
+				_alloc.destroy(_begin + i);
+				_alloc.construct(_begin + i, *(begin + i + 1));
+			}
+			_alloc.destroy(_begin + size() - 1);
+
+			_last--;
 			/* Erases the specified elements from the container.
 			1) Removes the element at pos.
 			2) Removes the elements in the range [first, last) */
@@ -304,6 +275,10 @@ namespace ft
 		}
 
 		void push_back(const T& value) {
+			if (_last == _end)
+			{
+
+			}
 			//appends the given element value to the end of the container. the new element is initialized as a copy of value
 			//value is moved into the new element. If the new size() is greater than capacity() then all
 			//iterators and references (including the past-the-end iterator) are invalidated.
@@ -346,7 +321,6 @@ namespace ft
             	_alloc.destroy(_begin + i);
         	}
         	_alloc.deallocate(_begin, capacity());
-
         	_begin = _new_begin;
 			_last = _begin + old_size;
         	_end = _begin + new_cap;
