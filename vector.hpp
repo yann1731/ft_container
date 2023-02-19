@@ -40,6 +40,8 @@ namespace ft
 		explicit vector(const allocator_type& alloc): _alloc(alloc), _begin(NULL), _last(NULL), _end(NULL) {};
 
 		explicit vector(size_type count, const T& value = T(), const allocator_type& alloc = Allocator()): _alloc(alloc) {
+			if (count >= max_size())
+				throw std::length_error("cannot create ft::vector larger than max_size()");
 			_begin = _alloc.allocate(count);
 			_last = _begin + count;
 			_end = _begin + count;
@@ -91,6 +93,9 @@ namespace ft
 			clear();
 			for (size_type i = 0; i < old_size; i++)
 				_alloc.construct(_begin + i, value);
+			for (size_type i = 0; i < (count - old_size); i++)
+				_alloc.construct(_begin + old_size + i, value);
+			_last = _begin + count;
 			//Replaces the contents with count copies of value value
 		}
 
@@ -101,9 +106,7 @@ namespace ft
 			if (count > capacity())
 				reallocate(count);
 			clear();
-			std::cout << *first << std::endl;
-			for (size_type i = 0; i < old_size; i++)
-				_alloc.construct(_begin + i, *first);
+			_last = std::copy(first, last, _begin);
 		}
 
 		allocator_type get_allocator(void) const {
@@ -193,11 +196,11 @@ namespace ft
 		}
 
 		reverse_iterator rend(void) {
-			return reverse_iterator(_end);
+			return reverse_iterator(_last + 1);
 		}
 
 		const_reverse_iterator rend(void) const {
-			return const_reverse_iterator(_end);
+			return const_reverse_iterator(_last + 1);
 		}
 
 		bool empty(void) const {
@@ -215,6 +218,8 @@ namespace ft
 		}
 
 		void reserve(size_type new_cap) {
+			if (new_cap >= max_size())
+				throw std::length_error("cannot reserve more than max_size()");
 			if (new_cap > this->capacity()) {
 				reallocate(new_cap);
 			}
@@ -291,20 +296,25 @@ namespace ft
 		}
 
 		void pop_back() {
+			--_last;
 			_alloc.destroy(_last);
-			_last--;
 			//Removes the last element of the container. UB if container empty
 		}
 
 		void resize(size_type count, T value = T()) {
-
+			if (count >= max_size())
+				throw std::length_error("Cannot resize ft::vector to max_size");
 			if (size() > count) {
-				_last -= (size() - count);
-				return ;
+				size_type tmp_size = size();
+				for (size_type i = 0; i < (tmp_size - count); i++) {
+					pop_back();
+				}
 			}
-			size_type index = count - size();
-			for (size_type i = index; index < count; index++) {
-				push_back(value);	
+			else {
+				size_type index = count - size();
+				for (size_type i = index; index < count; index++) {
+					push_back(value);	
+				}
 			}
 			/* Resizes the container to contain count elements.
 			If the current size is greater than count, the container is reduced to its first count elements.
@@ -389,6 +399,6 @@ template<class T, class Alloc>
 
 template<class Allocator>
 	class vector<bool, Allocator> {
-
+		static_assert("No bools for you my friend");
 	};
 };
