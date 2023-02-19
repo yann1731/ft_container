@@ -289,10 +289,21 @@ namespace ft
 		}
 
 		void pop_back() {
+			_alloc.destroy(_last);
+			_last--;
 			//Removes the last element of the container. UB if container empty
 		}
 
 		void resize(size_type count, T value = T()) {
+
+			if (size() > count) {
+				_last -= (size() - count);
+				return ;
+			}
+			size_type index = count - size();
+			for (size_type i = index; index < count; index++) {
+				push_back(value);	
+			}
 			/* Resizes the container to contain count elements.
 			If the current size is greater than count, the container is reduced to its first count elements.
 			If the current size is less than count,
