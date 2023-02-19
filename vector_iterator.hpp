@@ -27,7 +27,8 @@ public:
 
 	vector_iterator(const Iterator& iter) my_noexcept: current(iter) {}
 
-	// vector_iterator(const vector_iterator<Iterator, Container>)
+template<typename Iter>
+	vector_iterator(const vector_iterator<Iter, typename Container::value_type>& __i) my_noexcept: current(__i.base()) { }
 
 	reference operator*() const my_noexcept
 	{

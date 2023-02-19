@@ -7,6 +7,7 @@
 #include "algorithm.hpp"
 #include "type_traits.hpp"
 #include <iostream>
+#include <vector>
 
 namespace ft
 {
@@ -20,8 +21,8 @@ namespace ft
 		typedef typename allocator_type::const_reference 			const_reference;
 		typedef typename allocator_type::size_type 					size_type;
 		typedef typename allocator_type::difference_type 			difference_type;
-		typedef typename allocator_type::pointer 					pointer;
-		typedef typename allocator_type::const_pointer 				const_pointer;
+		typedef T* 													pointer;
+		typedef const T* 											const_pointer;
 		typedef ft::vector_iterator<pointer, vector<T> > 			iterator;
 		typedef ft::vector_iterator<const_pointer, vector<T> > 		const_iterator;
 		typedef ft::reverse_iterator<iterator> 						reverse_iterator;
@@ -54,12 +55,15 @@ namespace ft
 			_end = _last;
 			std::copy(first, last, _begin);
 		}
-
+	
 		vector(const vector& other): _alloc(other.get_allocator()) {
 			_begin = _alloc.allocate(other.size());
 			_last = _begin + other.size();
 			_end = _begin + other.capacity();
-			*this = other;
+
+			size_type other_size = other.size();
+			for (size_type i = 0; i < other_size; i++)
+				_alloc.construct(_begin + i, *(other._begin + i));
 		}
 
 		~vector() {
@@ -67,14 +71,15 @@ namespace ft
 			deallocate_data();
 		}
 
-		vector& operator=(const vector& other) {
+	template<class Container>
+		vector& operator=(const Container& other) {
 			if (this == &other)
 				return *this;
 			if (this->size() < other.size())
 				reserve(other.size());
-			for (size_type i; i < other.size(); i++)
-			{
-				this->_begin[i] = other._begin[i];
+			for (size_type i; i < other.size(); i++) {
+				_alloc.construct(_begin + i, other._begin + i);
+				// this->_begin[i] = other._begin[i];
 			}
 			return *this;
 		}
@@ -85,20 +90,20 @@ namespace ft
 				reallocate(count);
 			clear();
 			for (size_type i = 0; i < old_size; i++)
-				_begin[i] = value;
+				_alloc.construct(_begin + i, value);
 			//Replaces the contents with count copies of value value
 		}
 
 	template< class InputIt >
-		void assign(InputIt first, InputIt last) {
-			size_type count = distance(first, last);
+		void assign(InputIt first, typename enable_if<!is_integral<InputIt>::value, InputIt>::type last) {
+			size_type count = last - first;
 			size_type old_size = size();
 			if (count > capacity())
 				reallocate(count);
 			clear();
+			std::cout << *first << std::endl;
 			for (size_type i = 0; i < old_size; i++)
-				_begin[i] = *first;
-			//Replaces the contents with copies of those in the range [first, last). The behavior is undefined if either argument is an iterator into *this.
+				_alloc.construct(_begin + i, *first);
 		}
 
 		allocator_type get_allocator(void) const {
@@ -153,14 +158,14 @@ namespace ft
 			if (this->size() == 0)
 				return NULL;
 			else
-				_begin;
+				return _begin;
 		}
 
 		const T* data(void) const {
 			if (this->size() == 0)
 				return NULL;
 			else
-				_begin;
+				return _begin;
 		}
 
 		iterator begin(void) {
@@ -196,10 +201,7 @@ namespace ft
 		}
 
 		bool empty(void) const {
-			if (_begin == _end)
-				return true;
-			else
-				return false;
+			return (size() == 0);
 		}
 
 		size_type size() const {
@@ -207,7 +209,7 @@ namespace ft
 		}
 
 		size_type max_size() const {
-			return std::numeric_limits<difference_type>::max();
+			return std::numeric_limits<difference_type>::max() / sizeof(T);
 			//Returns the maximum number of elements the container is able to hold due to system or library implementation limitations, i.e. std::distance(begin(), end()) for the largest container.
 			//This value typically reflects the theoretical limit on the size of the container, at most std::numeric_limits<difference_type>::max(). At runtime, the size of the container may be limited to a value smaller than max_size() by the amount of RAM available.
 		}
