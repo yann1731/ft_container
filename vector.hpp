@@ -102,7 +102,6 @@ namespace ft
 	template< class InputIt >
 		void assign(InputIt first, typename enable_if<!is_integral<InputIt>::value, InputIt>::type last) {
 			size_type count = last - first;
-			size_type old_size = size();
 			if (count > capacity())
 				reallocate(count);
 			clear();
@@ -262,7 +261,6 @@ namespace ft
 		iterator erase(iterator pos) {
 			if (pos == end())
 				return pos;
-			size_type index = pos - begin();
 			size_type range = end() - begin();
 			
 			for (size_type i = 0; i < range; i++) {
@@ -312,7 +310,7 @@ namespace ft
 			}
 			else {
 				size_type index = count - size();
-				for (size_type i = index; index < count; index++) {
+				for (size_type i = index; i < count; i++) {
 					push_back(value);	
 				}
 			}
