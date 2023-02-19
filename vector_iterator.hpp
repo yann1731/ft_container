@@ -127,7 +127,7 @@ template <typename IteratorL, typename IteratorR, typename Container>
 template <typename Iterator, typename Container>
 	inline bool operator<(const vector_iterator<Iterator, Container>& lhs, const vector_iterator<Iterator, Container>& rhs) my_noexcept
 	{
-		return rhs.base() < lhs.base();
+		return lhs.base() < rhs.base();
 	}
 
 template <typename IteratorL, typename IteratorR, typename Container>

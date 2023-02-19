@@ -34,9 +34,9 @@ namespace ft
 		pointer 		_end;
 	
 	public:
-		vector(): _alloc(Allocator()), _begin(nullptr), _last(nullptr), _end(nullptr) {};
+		vector(): _alloc(Allocator()), _begin(NULL), _last(NULL), _end(NULL) {};
 
-		explicit vector(const allocator_type& alloc): _alloc(alloc), _begin(nullptr), _last(nullptr), _end(nullptr) {};
+		explicit vector(const allocator_type& alloc): _alloc(alloc), _begin(NULL), _last(NULL), _end(NULL) {};
 
 		explicit vector(size_type count, const T& value = T(), const allocator_type& alloc = Allocator()): _alloc(alloc) {
 			_begin = _alloc.allocate(count);
@@ -151,14 +151,14 @@ namespace ft
 
 		T* data(void) {
 			if (this->size() == 0)
-				return nullptr;
+				return NULL;
 			else
 				_begin;
 		}
 
 		const T* data(void) const {
 			if (this->size() == 0)
-				return nullptr;
+				return NULL;
 			else
 				_begin;
 		}
@@ -172,11 +172,11 @@ namespace ft
 		}
 
 		iterator end(void) {
-			return iterator(_end);
+			return iterator(_last);
 		}
 
 		const_iterator end(void) const {
-			return const_iterator(_end);
+			return const_iterator(_last);
 		}
 
 		reverse_iterator rbegin(void) {
@@ -253,32 +253,36 @@ namespace ft
 		}
 
 		iterator erase(iterator pos) {
+			if (pos == end())
+				return pos;
 			size_type index = pos - begin();
-
-			if (index >= size())
-				throw std::out_of_range("Out of range");
-			//inserts elements from range [first, last) before pos.
-			for (size_type i = index; i < size(); i++) {
+			size_type range = end() - begin();
+			
+			for (size_type i = 0; i < range; i++) {
 				_alloc.destroy(_begin + i);
-				_alloc.construct(_begin + i, *(begin + i + 1));
+				_alloc.construct(_begin + i, *(_begin + i + 1));
 			}
-			_alloc.destroy(_begin + size() - 1);
 			_last--;
+			return (pos++);
 			/* Erases the specified elements from the container.
 			1) Removes the element at pos.
 			2) Removes the elements in the range [first, last) */
 		}
 
 		iterator erase(iterator first, iterator last) {
-
+			for (iterator it = first; it < last; it++) {
+				erase(first);
+			}
+			return (first + 1);
 		}
 
 		void push_back(const T& value) {
-			if (_last == _end)
-			{
-
+			if (size() == capacity()) {
+				reallocate_double();
 			}
-			//appends the given element value to the end of the container. the new element is initialized as a copy of value
+			_alloc.construct(_last, value);
+			_last++;
+ 			//appends the given element value to the end of the container. the new element is initialized as a copy of value
 			//value is moved into the new element. If the new size() is greater than capacity() then all
 			//iterators and references (including the past-the-end iterator) are invalidated.
 			//Otherwise only the past-the-end iterator is invalidated.
@@ -306,9 +310,9 @@ namespace ft
 			{
 				size_type cap = capacity();
 				_alloc.deallocate(_begin, cap);
-				_begin = nullptr;
-				_last = nullptr;
-				_end = nullptr;
+				_begin = NULL;
+				_last = NULL;
+				_end = NULL;
 			}
 		}
 
@@ -316,7 +320,7 @@ namespace ft
 			pointer _new_begin = _alloc.allocate(new_cap);
 			size_type old_size = size();
         	for (size_type i = 0; i < size(); ++i) {
-            	_alloc.construct(_new_begin + i, std::move(_begin[i]));
+            	_alloc.construct(_new_begin + i, _begin[i]);
             	_alloc.destroy(_begin + i);
         	}
         	_alloc.deallocate(_begin, capacity());
@@ -324,6 +328,20 @@ namespace ft
 			_last = _begin + old_size;
         	_end = _begin + new_cap;
 		}
+
+		void reallocate_double() {
+			size_type new_cap = capacity() * 2;
+			pointer _new_begin = _alloc.allocate(new_cap);
+			size_type old_size = size();
+			for (size_type i = 0; i < old_size; ++i) {
+            	_alloc.construct(_new_begin + i, _begin[i]);
+            	_alloc.destroy(_begin + i);
+        	}
+        	_alloc.deallocate(_begin, capacity());
+        	_begin = _new_begin;
+			_last = _begin + old_size;
+        	_end = _begin + new_cap;
+		};
 	};
 
 template<class T, class Alloc>
