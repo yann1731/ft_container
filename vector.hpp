@@ -51,7 +51,7 @@ namespace ft
 		};
 
 	template<class InputIt>
-		vector(InputIt first, typename enable_if<!is_integral<InputIt>::value, InputIt>::type last, const allocator_type& alloc = Allocator()): _alloc(alloc) {
+		vector(InputIt first, enable_if<!is_integral<InputIt>::value, InputIt> last, const allocator_type& alloc = Allocator()): _alloc(alloc) {
 			size_type n = std::distance(first, last);
 			_begin = _alloc.allocate(n);
 			_last = _begin + n;
@@ -101,7 +101,7 @@ namespace ft
 		}
 
 	template< class InputIt >
-		void assign(InputIt first, typename enable_if<!is_integral<InputIt>::value, InputIt>::type last) {
+		void assign(InputIt first, enable_if<!is_integral<InputIt>::value, InputIt> last) {
 			size_type count = last - first;
 			if (count > capacity())
 				reallocate(count);
@@ -289,8 +289,24 @@ namespace ft
 		}
 
 	template< class InputIt >
-		iterator insert(const_iterator pos, InputIt first, InputIt last) {
-	
+		iterator insert(const_iterator pos, InputIt first, enable_if<!is_integral<InputIt>::value, InputIt> last) {
+			size_type range = last - first;
+			size_type index = pos - begin();
+			size_type new_size = range + size();
+			resize(range + size());
+
+			for (size_type i = 0; i < index; i++) {
+				_alloc.construct(_begin + i, _begin[i]);
+			}
+			for (size_type i = index; i < new_size; i++) {
+				_alloc.construct(_begin + (i + count), _begin[i]);
+				_alloc.destroy(_begin + i);
+				if (i < (index + count))
+					_alloc.construct(_begin + i, value);
+			}
+			_last += count;
+			return pos + count;
+
 		}
 
 		iterator erase(iterator pos) {
