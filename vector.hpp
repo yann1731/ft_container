@@ -36,9 +36,9 @@ namespace ft
 		pointer 		_end;
 	
 	public:
-		vector(): _alloc(Allocator()), _begin(NULL), _last(NULL), _end(NULL) {};
+		vector(): _alloc(Allocator()), _begin(_alloc.allocate(0)), _last(_begin), _end(_last) {};
 
-		explicit vector(const allocator_type& alloc): _alloc(alloc), _begin(NULL), _last(NULL), _end(NULL) {};
+		explicit vector(const allocator_type& alloc): _alloc(alloc), _begin(_alloc.allocate(0)), _last(_begin), _end(_last) {};
 
 		explicit vector(size_type count, const T& value = T(), const allocator_type& alloc = Allocator()): _alloc(alloc) {
 			if (count >= max_size())
@@ -51,7 +51,7 @@ namespace ft
 		};
 
 	template<class InputIt>
-		vector(InputIt first, enable_if<!is_integral<InputIt>::value, InputIt> last, const allocator_type& alloc = Allocator()): _alloc(alloc) {
+		vector(InputIt first, typename enable_if<!is_integral<InputIt>::value, InputIt>::type last, const allocator_type& alloc = Allocator()): _alloc(alloc) {
 			size_type n = std::distance(first, last);
 			_begin = _alloc.allocate(n);
 			_last = _begin + n;
@@ -93,7 +93,10 @@ namespace ft
 				reallocate(count);
 			clear();
 			for (size_type i = 0; i < old_size; i++)
+			{
+				_alloc.destroy(_begin + i);
 				_alloc.construct(_begin + i, value);
+			}
 			for (size_type i = 0; i < (count - old_size); i++)
 				_alloc.construct(_begin + old_size + i, value);
 			_last = _begin + count;
@@ -101,10 +104,9 @@ namespace ft
 		}
 
 	template< class InputIt >
-		void assign(InputIt first, enable_if<!is_integral<InputIt>::value, InputIt> last) {
-			size_type count = last - first;
-			if (count > capacity())
-				reallocate(count);
+		void assign(InputIt first, typename enable_if<!is_integral<InputIt>::value, InputIt>::type last) {
+			if ((last - first) > capacity())
+				reallocate(last - first);
 			clear();
 			_last = std::copy(first, last, _begin);
 		}
@@ -237,8 +239,10 @@ namespace ft
 		}
 
 		void clear() {
-        	for (size_type i = 0; i < size(); ++i) {
-            	_begin[i].~T();
+			size_type old_size = size();
+        	for (size_type i = 0; i < old_size; ++i) {
+            	_alloc.destroy(_begin + i);
+				// _begin[i].~T();
         	}
 			_last = _begin;
 			/* Erases all elements from the container. After this call, size() returns zero.
@@ -284,29 +288,46 @@ namespace ft
 					_alloc.construct(_begin + i, value);
 			}
 			_last += count;
-			return pos + count;
+			return iterator(pos + count);
 			//inserts count copies of the value before pos
 		}
 
 	template< class InputIt >
-		iterator insert(const_iterator pos, InputIt first, enable_if<!is_integral<InputIt>::value, InputIt> last) {
+		iterator insert(const iterator pos, InputIt first, typename enable_if<!is_integral<InputIt>::value, InputIt>::type last) {
 			size_type range = last - first;
 			size_type index = pos - begin();
 			size_type new_size = range + size();
-			resize(range + size());
+			if (new_size > capacity()) {
+				pointer new_begin = _alloc.allocate(new_size);
+				for (size_type i = 0; i < index; i++) {
+					_alloc.construct(new_begin + i, _begin[i]);
+					_alloc.destroy(_begin + i);
+				}
+				for (size_type i = 0; i < range; i++) {
+					_alloc.construct(new_begin + (index + i), first[i]);
+				}
+				for (size_type i = index + range; i < new_size; i++) {
+					_alloc.construct(new_begin + i, _begin[i - range]);
+					_alloc.destroy(_begin + (i - range));
+				}
+				_alloc.deallocate(_begin, capacity());
+				_begin = new_begin;
+				_last = _begin + new_size;
+				_end = _last;
+				return iterator(pos + range);
+			}
 
 			for (size_type i = 0; i < index; i++) {
 				_alloc.construct(_begin + i, _begin[i]);
 			}
 			for (size_type i = index; i < new_size; i++) {
-				_alloc.construct(_begin + (i + count), _begin[i]);
+				_alloc.construct(_begin + (i + range), _begin[i]);
 				_alloc.destroy(_begin + i);
-				if (i < (index + count))
-					_alloc.construct(_begin + i, value);
+				if (i < (index + range))
+					_alloc.construct(_begin + i, first[i]);
 			}
-			_last += count;
-			return pos + count;
-
+			_last += range;
+			return iterator(pos + range);
 		}
 
 		iterator erase(iterator pos) {
@@ -373,7 +394,17 @@ namespace ft
 		}
 
 		void swap(vector& other) {
+			pointer tmp_begin = _begin;
+			pointer tmp_last = _last;
+			pointer tmp_end = _end;
 
+			_begin = other._begin;
+			_last = other._last;
+			_end = other._end;
+
+			other._begin = tmp_begin;
+			other._last = tmp_last;
+			other._end = tmp_end;
 		}
 
 	private:
@@ -464,6 +495,5 @@ template<class T, class Alloc>
 
 template<class Allocator>
 	class vector<bool, Allocator> {
-		static_assert("No bools for you my friend");
 	};
 };
