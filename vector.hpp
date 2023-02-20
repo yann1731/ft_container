@@ -273,8 +273,16 @@ namespace ft
 				_end = _last;
 				return pos + count;
 			}
-			
-			
+
+			for (size_type i = 0; i < index; i++) {
+				_alloc.construct(_begin + i, _begin[i]);
+			}
+			for (size_type i = index + count; i < new_size; i++) {
+				_alloc.construct(_begin + (i + count), _begin[i]);
+				_alloc.destroy(_begin + i);
+				if (i < (i + count))
+					_alloc.construct(_begin + i, value);
+			}
 			_last += count;
 			return pos + count;
 			//inserts count copies of the value before pos
