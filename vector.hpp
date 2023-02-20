@@ -1,6 +1,7 @@
 #include <memory>
 #include <limits>
 #include <stdexcept>
+#include <algorithm>
 #include "reverse_iterator.hpp"
 #include "vector_iterator.hpp"
 #include "pair.hpp"
@@ -246,10 +247,36 @@ namespace ft
 		}
 
 		iterator insert(const iterator pos, const T& value) {
+			return insert(pos, 1, value);
 				//inserts value before pos.
 		}
 
 		iterator insert(const iterator pos, size_type count, const T& value) {
+			size_type index = pos - begin();
+			size_type new_size = size() + count;
+			if (new_size > capacity()) {
+				pointer new_begin = _alloc.allocate(new_size);
+				for (size_type i = 0; i < index; i++) {
+					_alloc.construct(new_begin + i, _begin[i]);
+					_alloc.destroy(_begin + i);
+				}
+				for (size_type i = 0; i < count; i++) {
+					_alloc.construct(new_begin + (index + i), value);
+				}
+				for (size_type i = index + count; i < new_size; i++) {
+					_alloc.construct(new_begin + i, _begin[i - count]);
+					_alloc.destroy(_begin + (i - count));
+				}
+				_alloc.deallocate(_begin, capacity());
+				_begin = new_begin;
+				_last = _begin + new_size;
+				_end = _last;
+				return pos + count;
+			}
+			
+			
+			_last += count;
+			return pos + count;
 			//inserts count copies of the value before pos
 		}
 
@@ -363,6 +390,22 @@ namespace ft
 			_last = _begin + old_size;
         	_end = _begin + new_cap;
 		};
+
+		size_type reallocate_one(iterator pos, const T& value) {
+			size_type index = begin() - pos;
+			size_type new_cap = capacity() + 1;
+			pointer _new_begin = _alloc.allocate(new_cap);
+			size_type old_size = size();
+			for (size_type i = index; i < old_size; ++i) {
+            	_alloc.construct(_new_begin + i, _begin[i + 1]);
+            	_alloc.destroy(_begin + i);
+        	}
+			_new_begin[index] = value;
+        	_alloc.deallocate(_begin, capacity());
+        	_begin = _new_begin;
+			_last = _begin + old_size;
+        	_end = _begin + new_cap;
+		}
 	};
 
 template<class T, class Alloc>
