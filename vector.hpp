@@ -89,16 +89,16 @@ namespace ft
 
 		void assign(size_type count, const T& value) {
 			size_type old_size = size();
-			if (count > capacity())
+			if (count > capacity()) //if new size > old_size allocate count memory
 				reallocate(count);
 			clear();
-			for (size_type i = 0; i < old_size; i++)
+			for (size_type i = 0; i < old_size; i++) //destroy old elements
 			{
 				_alloc.destroy(_begin + i);
 				_alloc.construct(_begin + i, value);
 			}
-			for (size_type i = 0; i < (count - old_size); i++)
-				_alloc.construct(_begin + old_size + i, value);
+			for (size_type i = 0; i < count; i++)
+				_alloc.construct(_begin + i, value);
 			_last = _begin + count;
 			//Replaces the contents with count copies of value value
 		}

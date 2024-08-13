@@ -11,7 +11,7 @@ int main(void)
 {
 
     ft::vector<char> v;
-    std::vector<char> v2(0, 'c');
+    std::vector<char> v2(0, 'C');
 
     std::string s_string[32] = {                                                                   \
         "QExoqp0nICr0sXsHqty2", "naax9QcpJhvaL7DezsNQ", "25ZTtB6wbptfbxM8AvHB",                    \
@@ -52,21 +52,34 @@ int main(void)
         "gzaapTWW7i9EZjjzLeK6"                                                                     \
     };
 
-    std::cout << "capacity: " << v.capacity() << std::endl;
-    std::cout << "size: " << v.size() << std::endl;
+    // std::cout << "capacity: " << v.capacity() << std::endl;
+    // std::cout << "size: " << v.size() << std::endl;
 
     
-    v.assign(0, 'c');
+    // v.assign(0, 'c');
 
-    v.assign(64, 'A');
+    // std::cout << "v2.size " << v.size() << " v2.cap " << v.capacity() << std::endl; 
 
-    v.assign(32, '5');
+    // v.assign(64, 'A');
 
+    // std::cout << "v2.size " << v.size() << " v2.cap " << v.capacity() << std::endl;
+
+    // v.assign(32, '5');
+
+    // std::cout << "v2.size " << v.size() << " v2.cap " << v.capacity() << std::endl;
+
+    v.assign(87, 'H');
+
+    // std::cout << "v2.size " << v.size() << " v2.cap " << v.capacity() << std::endl;
+
+    // v.clear();
+
+    // std::cout << "v2.size " << v.size() << " v2.cap " << v.capacity() << std::endl;
 
     for (size_t i = 0; i < v.size(); i++)
-        cout << v[i] << " ";
-    cout << v.size() << endl;
-    cout << v.capacity() << endl;
+        cout << v[i] << std::endl;
+    // cout << v.size() << endl;
+    // cout << v.capacity() << endl;
 
     return 0;
 }
