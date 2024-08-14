@@ -1,3 +1,5 @@
+#ifndef VECTOR_HPP
+# define VECTOR_HPP
 #include <memory>
 #include <limits>
 #include <stdexcept>
@@ -60,6 +62,16 @@ namespace ft
 		}
 	
 		vector(const vector& other): _alloc(other.get_allocator()) {
+			_begin = _alloc.allocate(other.size());
+			_last = _begin + other.size();
+			_end = _begin + other.capacity();
+
+			size_type other_size = other.size();
+			for (size_type i = 0; i < other_size; i++)
+				_alloc.construct(_begin + i, *(other._begin + i));
+		}
+
+		vector(vector& other): _alloc(other.get_allocator()) {
 			_begin = _alloc.allocate(other.size());
 			_last = _begin + other.size();
 			_end = _begin + other.capacity();
@@ -497,3 +509,5 @@ template<class Allocator>
 	class vector<bool, Allocator> {
 	};
 };
+
+#endif

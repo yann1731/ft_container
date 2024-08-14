@@ -17,7 +17,7 @@ template <typename T, class _Container = vector<T> >
 		container_type c;
 	public:
 		stack(): c() {};
-		explicit stack(const Container& cont = Container()): c(cont) {};
+		explicit stack(const _Container& cont = _Container()): c(cont) {};
 		stack(const stack &otherStack) {c = otherStack.c;};
 		~stack() {};
 		stack &operator=(const stack &rhs)

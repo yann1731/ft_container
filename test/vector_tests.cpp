@@ -34,7 +34,7 @@ TEST(VectorConstructors, AllocConstructor) {
     EXPECT_EQ(v.size(), 0);
   }
   {  // template
-    ft::vector<int, std::allocator<int>> v;
+    ft::vector<int, std::allocator<int> > v;
     EXPECT_EQ(v.size(), 0);
   }
 }
@@ -341,40 +341,40 @@ TEST(VectorModifiers, Clear) {
 }
 
 // iterator insert( const_iterator pos, const T& value )
-// TEST(VectorModifiers, Insert) {
-//   {  // TODO check if insert throws when at max size
-//     ft::vector<int> v(10, 3);
-//     v.insert(v.begin(), 1);
-//     EXPECT_EQ(v.front(), 1);
-//   }
-// }
+TEST(VectorModifiers, Insert) {
+  {  // TODO check if insert throws when at max size
+    ft::vector<int> v(10, 3);
+    v.insert(v.begin(), 1);
+    EXPECT_EQ(v.front(), 1);
+  }
+}
 
 // iterator insert( const_iterator pos, size_type count, const T& value )
-// TEST(VectorModifiers, InsertCount) {
-//   {  // TODO check if insert throws when at max size
-//     ft::vector<int> v(10, 3);
-//     v.insert(v.begin(), 5, 1);
-//     EXPECT_GE(v.size(), 15);
+TEST(VectorModifiers, InsertCount) {
+  {  // TODO check if insert throws when at max size
+    ft::vector<int> v(10, 3);
+    v.insert(v.begin(), 5, 1);
+    EXPECT_GE(v.size(), 15);
 
-//     EXPECT_EQ(v[0], 1);
-//     EXPECT_EQ(v[4], 1);
-//     EXPECT_NE(v[6], 1);
-//   }
-// }
+    EXPECT_EQ(v[0], 1);
+    EXPECT_EQ(v[4], 1);
+    EXPECT_NE(v[6], 1);
+  }
+}
 
 // template< class InputIt >
 // iterator insert( const_iterator pos, InputIt first, InputIt last );
-// TEST(VectorModifiers, InsertRange) {
-//   {  // TODO check if insert throws when at max size
-//     ft::vector<int> v1(10, 3);
-//     ft::vector<int> v2(10, 1);
-//     v1.insert(v1.begin(), v2.begin(), v2.end());
+TEST(VectorModifiers, InsertRange) {
+  {  // TODO check if insert throws when at max size
+    ft::vector<int> v1(10, 3);
+    ft::vector<int> v2(10, 1);
+    v1.insert(v1.begin(), v2.begin(), v2.end());
 
-//     EXPECT_GE(v1.size(), 20);
-//     EXPECT_EQ(v1[0], 1);
-//     EXPECT_EQ(v1[9], 1);
-//   }
-// }
+    EXPECT_GE(v1.size(), 20);
+    EXPECT_EQ(v1[0], 1);
+    EXPECT_EQ(v1[9], 1);
+  }
+}
 
 // iterator erase( iterator pos )
 TEST(VectorModifiers, Erase) {
@@ -469,29 +469,29 @@ TEST(VectorModifiers, ResizeSet) {
 }
 
 // void swap( vector& other )
-// TEST(VectorModifiers, Swap) {
-//   {
-//     ft::vector<int> v1(5, 20);
-//     ft::vector<int> v2(3, 10);
+TEST(VectorModifiers, Swap) {
+  {
+    ft::vector<int> v1(5, 20);
+    ft::vector<int> v2(3, 10);
 
-//     ft::vector<int>::iterator it1 = v1.begin();
-//     ft::vector<int>::iterator it2 = v2.begin();
+    ft::vector<int>::iterator it1 = v1.begin();
+    ft::vector<int>::iterator it2 = v2.begin();
 
-//     int &ref1 = v1.front();
-//     int &ref2 = v2.front();
+    int &ref1 = v1.front();
+    int &ref2 = v2.front();
 
-//     v1.swap(v2);
+    v1.swap(v2);
 
-//     EXPECT_EQ(*it1, 20);
-//     EXPECT_EQ(*it2, 10);
-//     EXPECT_EQ(ref1, 20);
-//     EXPECT_EQ(ref2, 10);
-//     EXPECT_EQ(v1.size(), 3);
-//     EXPECT_EQ(v2.size(), 5);
-//     EXPECT_EQ(v1.front(), 10);
-//     EXPECT_EQ(v2.front(), 20);
-//   }
-// }
+    EXPECT_EQ(*it1, 20);
+    EXPECT_EQ(*it2, 10);
+    EXPECT_EQ(ref1, 20);
+    EXPECT_EQ(ref2, 10);
+    EXPECT_EQ(v1.size(), 3);
+    EXPECT_EQ(v2.size(), 5);
+    EXPECT_EQ(v1.front(), 10);
+    EXPECT_EQ(v2.front(), 20);
+  }
+}
 
 // template< class T, class Alloc >
 // bool operator==( const std::vector<T,Alloc>& lhs,
@@ -576,283 +576,289 @@ TEST(VectorNonMember, GreaterThanEqual) {
 // template< class T, class Alloc >
 // void swap( std::vector<T,Alloc>& lhs,
 //  std::vector<T,Alloc>& rhs )
-// TEST(VectorNonMember, Swap) {
-//   {
-//     ft::vector<int> v1(5, 20);
-//     ft::vector<int> v2(3, 10);
+TEST(VectorNonMember, Swap) {
+  {
+    ft::vector<int> v1(5, 20);
+    ft::vector<int> v2(3, 10);
 
-//     ft::vector<int>::iterator it1 = v1.begin();
-//     ft::vector<int>::iterator it2 = v2.begin();
+    ft::vector<int>::iterator it1 = v1.begin();
+    ft::vector<int>::iterator it2 = v2.begin();
 
-//     int &ref1 = v1.front();
-//     int &ref2 = v2.front();
+    int &ref1 = v1.front();
+    int &ref2 = v2.front();
 
-//     ft::swap(v1, v2);
+    ft::swap(v1, v2);
 
-//     EXPECT_EQ(*it1, 20);
-//     EXPECT_EQ(*it2, 10);
-//     EXPECT_EQ(ref1, 20);
-//     EXPECT_EQ(ref2, 10);
-//     EXPECT_EQ(v1.size(), 3);
-//     EXPECT_EQ(v2.size(), 5);
-//     EXPECT_EQ(v1.front(), 10);
-//     EXPECT_EQ(v2.front(), 20);
-//   }
-// }
-
-
+    EXPECT_EQ(*it1, 20);
+    EXPECT_EQ(*it2, 10);
+    EXPECT_EQ(ref1, 20);
+    EXPECT_EQ(ref2, 10);
+    EXPECT_EQ(v1.size(), 3);
+    EXPECT_EQ(v2.size(), 5);
+    EXPECT_EQ(v1.front(), 10);
+    EXPECT_EQ(v2.front(), 20);
+  }
+}
 
 
 
-// #include <gtest/gtest.h>
-// #include <vector>
-// #include "../vector.hpp"
 
-// // Test the default constructor
-// TEST(VectorTest, DefaultConstructorTest) {
-//   std::vector<int> v1;
-//   ft::vector<int> v2;
-//   EXPECT_EQ(v1.size(), v2.size());
-// }
 
-// // Test the allocator constructor
-// TEST(VectorTest, AllocatorConstructorTest) {
-//   std::allocator<int> a;
-//   std::vector<int, std::allocator<int> > v1(a);
-//   ft::vector<int, std::allocator<int> > v2(a);
-//   EXPECT_EQ(v1.size(), v2.size());
-//   EXPECT_EQ(v1.get_allocator(), v2.get_allocator());
-// }
+#include <gtest/gtest.h>
+#include <vector>
+#include "../vector.hpp"
 
-// // Test the iterator range constructor
-// TEST(VectorTest, IteratorRangeConstructorTest) {
-//   std::vector<int> v1(5, 10);
-//   ft::vector<int> v2(v1.begin(), v1.end());
-//   EXPECT_EQ(v1.size(), v2.size());
-//   EXPECT_EQ(v1[2], v2[2]);
-// }
+// Test the default constructor
+TEST(VectorTest, DefaultConstructorTest) {
+  std::vector<int> v1;
+  ft::vector<int> v2;
+  EXPECT_EQ(v1.size(), v2.size());
+}
 
-// // Test the copy constructor
-// TEST(VectorTest, CopyConstructorTest) {
-//   std::vector<int> v1(5, 10);
-//   ft::vector<int> v2(v1);
-//   EXPECT_EQ(v1.size(), v2.size());
-//   EXPECT_EQ(v1[2], v2[2]);
-// }
+// Test the allocator constructor
+TEST(VectorTest, AllocatorConstructorTest) {
+  std::allocator<int> a;
+  std::vector<int, std::allocator<int> > v1(a);
+  ft::vector<int, std::allocator<int> > v2(a);
+  EXPECT_EQ(v1.size(), v2.size());
+  EXPECT_EQ(v1.get_allocator(), v2.get_allocator());
+}
 
-// // Test the size() function
-// TEST(VectorTest, SizeTest) {
-//   std::vector<int> v1;
-//   ft::vector<int> v2;
-//   for (size_t i = 0; i < 5; i++) {
-//       v1.push_back(1);
-//       v2.push_back(1);
-//     }
-//   EXPECT_EQ(v1.size(), v2.size());
-// }
+// Test the iterator range constructor
+TEST(VectorTest, IteratorRangeConstructorTest) {
+  std::vector<int> v1(5, 10);
+  ft::vector<int> v2(v1.begin(), v1.end());
+  EXPECT_EQ(v1.size(), v2.size());
+  EXPECT_EQ(v1[2], v2[2]);
+}
 
-// // Test the max_size() function
-// TEST(VectorTest, MaxSizeTest) {
-//   std::vector<int> v1;
-//   ft::vector<int> v2;
-//   for (size_t i = 0; i < 5; i++) {
-//       v1.push_back(1);
-//       v2.push_back(1);
-//     }
-//   EXPECT_EQ(v1.max_size(), v2.max_size());
-// }
+// Test the copy constructor
+TEST(VectorTest, CopyConstructorTest) {
+  ft::vector<int> v1(5, 10);
+  ft::vector<int> v2(v1);
+  EXPECT_EQ(v1.size(), v2.size());
+  EXPECT_EQ(v1[2], v2[2]);
+}
 
-// // Test the empty() function
-// TEST(VectorTest, EmptyTest) {
-//   std::vector<int> v1;
-//   ft::vector<int> v2;
-//   EXPECT_EQ(v1.empty(), v2.empty());
-// }
+// Test the size() function
+TEST(VectorTest, SizeTest) {
+  std::vector<int> v1;
+  ft::vector<int> v2;
+  for (size_t i = 0; i < 5; i++) {
+      v1.push_back(1);
+      v2.push_back(1);
+    }
+  EXPECT_EQ(v1.size(), v2.size());
+}
 
-// TEST(VectorTest, EmptyTest2) {
-//   std::vector<int> v1;
-//   ft::vector<int> v2;
-//   for (size_t i = 0; i < 5; i++) {
-//       v1.push_back(1);
-//       v2.push_back(1);
-//     }
-//   EXPECT_EQ(v1.empty(), v2.empty());
-// }
+// Test the max_size() function
+TEST(VectorTest, MaxSizeTest) {
+  std::vector<int> v1;
+  ft::vector<int> v2;
+  for (size_t i = 0; i < 5; i++) {
+      v1.push_back(1);
+      v2.push_back(1);
+    }
+  EXPECT_EQ(v1.max_size(), v2.max_size());
+}
 
-// // Test the operator[] function
-// TEST(VectorTest, SubscriptTest) {
-//   std::vector<int> v1;
-//   ft::vector<int> v2;
-//   for (size_t i = 0; i < 5; i++) {
-//       v1.push_back(1);
-//       v2.push_back(1);
-//     }
-//   EXPECT_EQ(v1[2], v2[2]);
-// }
+// Test the empty() function
+TEST(VectorTest, EmptyTest) {
+  std::vector<int> v1;
+  ft::vector<int> v2;
+  EXPECT_EQ(v1.empty(), v2.empty());
+}
 
-// // Test the at() function
-// TEST(VectorTest, AtTest) {
-//   std::vector<int> v1;
-//   ft::vector<int> v2;
-//   for (size_t i = 0; i < 5; i++) {
-//       v1.push_back(1);
-//       v2.push_back(1);
-//     }
-//   EXPECT_EQ(v1.at(3), v2.at(3));
-// }
+TEST(VectorTest, EmptyTest2) {
+  std::vector<int> v1;
+  ft::vector<int> v2;
+  for (size_t i = 0; i < 5; i++) {
+      v1.push_back(1);
+      v2.push_back(1);
+    }
+  EXPECT_EQ(v1.empty(), v2.empty());
+}
 
-// // Test the front() function
-// TEST(VectorTest, FrontTest) {
-//   std::vector<int> v1;
-//   ft::vector<int> v2;
-//   for (size_t i = 0; i < 5; i++) {
-//       v1.push_back(1);
-//       v2.push_back(1);
-//     }
-//   EXPECT_EQ(v1.front(), v2.front());
-// }
+// Test the operator[] function
+TEST(VectorTest, SubscriptTest) {
+  std::vector<int> v1;
+  ft::vector<int> v2;
+  for (size_t i = 0; i < 5; i++) {
+      v1.push_back(1);
+      v2.push_back(1);
+    }
+  EXPECT_EQ(v1[2], v2[2]);
+}
 
-// // Test the back() function
-// TEST(VectorTest, BackTest) {
-//   std::vector<int> v1;
-//   ft::vector<int> v2;
-//   for (size_t i = 0; i < 5; i++) {
-//       v1.push_back(1);
-//       v2.push_back(1);
-//     }
-//   EXPECT_EQ(v1.back(), v2.back());
-// }
+// Test the at() function
+TEST(VectorTest, AtTest) {
+  std::vector<int> v1;
+  ft::vector<int> v2;
+  for (size_t i = 0; i < 5; i++) {
+      v1.push_back(1);
+      v2.push_back(1);
+    }
+  EXPECT_EQ(v1.at(3), v2.at(3));
+}
 
-// // Test the data() function
-// TEST(VectorTest, DataTest) {
-//   std::vector<int> v1;
-//   ft::vector<int> v2;
-//   for (size_t i = 0; i < 5; i++) {
-//       v1.push_back(1);
-//       v2.push_back(1);
-//     }
-//   const int* v1data = v1.data();
-//   const int* v2data = v2.data();
-//   for (size_t i = 0; i < v1.size(); i++) {
-//     EXPECT_EQ(v1data[i], v2data[i]);
-//   }
-// }
+// Test the front() function
+TEST(VectorTest, FrontTest) {
+  std::vector<int> v1;
+  ft::vector<int> v2;
+  for (size_t i = 0; i < 5; i++) {
+      v1.push_back(1);
+      v2.push_back(1);
+    }
+  EXPECT_EQ(v1.front(), v2.front());
+}
 
-// // Test the assign() function
-// TEST(VectorTest, AssignTest) {
-//   std::vector<int> v1;
-//   ft::vector<int> v2;
-//   for (size_t i = 0; i < 5; i++) {
-//       v1.push_back(1);
-//       v2.push_back(1);
-//     }
-//   v1.assign(3, 9);
-//   v2.assign(3, 9);
-//   EXPECT_EQ(v1.size(), v2.size());
-//   EXPECT_EQ(v1[2], v2[2]);
-// }
+// Test the back() function
+TEST(VectorTest, BackTest) {
+  std::vector<int> v1;
+  ft::vector<int> v2;
+  for (size_t i = 0; i < 5; i++) {
+      v1.push_back(1);
+      v2.push_back(1);
+    }
+  EXPECT_EQ(v1.back(), v2.back());
+}
 
-// // Test the push_back() function
-// TEST(VectorTest, PushBackTest) {
-//   std::vector<int> v1;
-//   ft::vector<int> v2;
-//   for (size_t i = 0; i < 5; i++) {
-//       v1.push_back(1);
-//       v2.push_back(1);
-//     }
-//   v1.push_back(6);
-//   v2.push_back(6);
-//   EXPECT_EQ(v1.size(), v2.size());
-//   EXPECT_EQ(v1.back(), v2.back());
-// }
+// Test the data() function
+TEST(VectorTest, DataTest) {
+  std::vector<int> v1;
+  ft::vector<int> v2;
+  for (size_t i = 0; i < 5; i++) {
+      v1.push_back(1);
+      v2.push_back(1);
+    }
+  const int* v1data = v1.data();
+  const int* v2data = v2.data();
+  for (size_t i = 0; i < v1.size(); i++) {
+    EXPECT_EQ(v1data[i], v2data[i]);
+  }
+}
 
-// // Test the pop_back() function
-// TEST(VectorTest, PopBackTest) {
-//   std::vector<int> v1;
-//   ft::vector<int> v2;
-//   for (size_t i = 0; i < 5; i++) {
-//       v1.push_back(1);
-//       v2.push_back(1);
-//     }
-//   v1.pop_back();
-//   v2.pop_back();
-//   EXPECT_EQ(v1.size(), v2.size());
-//   EXPECT_EQ(v1.back(), v2.back());
-// }
+// Test the assign() function
+TEST(VectorTest, AssignTest) {
+  std::vector<int> v1;
+  ft::vector<int> v2;
+  for (size_t i = 0; i < 5; i++) {
+      v1.push_back(1);
+      v2.push_back(1);
+    }
+  v1.assign(3, 9);
+  v2.assign(3, 9);
+  EXPECT_EQ(v1.size(), v2.size());
+  EXPECT_EQ(v1[2], v2[2]);
+}
 
-// // Test the insert() function
-// // TEST_F(VectorTest, InsertTest) {
-// //   std::vector<int>::iterator v1it = v1.begin() + 3;
-// //   ft::vector<int>::iterator v2it = v2.begin() + 3;
-// //   v1.insert(v1it, 8);
-// //   v2.insert(v2it, 8);
-// //   EXPECT_EQ(v1.size(), v2.size());
-// //   EXPECT_EQ(v1[3], v2[3]);
-// // }
+// Test the push_back() function
+TEST(VectorTest, PushBackTest) {
+  std::vector<int> v1;
+  ft::vector<int> v2;
+  for (size_t i = 0; i < 5; i++) {
+      v1.push_back(1);
+      v2.push_back(1);
+    }
+  v1.push_back(6);
+  v2.push_back(6);
+  EXPECT_EQ(v1.size(), v2.size());
+  EXPECT_EQ(v1.back(), v2.back());
+}
 
-// // Test the erase() function
-// TEST(VectorTest, EraseTest) {
-//   std::vector<int> v1;
-//   ft::vector<int> v2;
-//   for (size_t i = 0; i < 5; i++) {
-//       v1.push_back(1);
-//       v2.push_back(1);
-//     }
-//   std::vector<int>::iterator v1it = v1.begin() + 2;
-//   ft::vector<int>::iterator v2it = v2.begin() + 2;
-//   v1.erase(v1it);
-//   v2.erase(v2it);
-//   EXPECT_EQ(v1.size(), v2.size());
-//   EXPECT_EQ(v1[2], v2[2]);
-// }
+// Test the pop_back() function
+TEST(VectorTest, PopBackTest) {
+  std::vector<int> v1;
+  ft::vector<int> v2;
+  for (size_t i = 0; i < 5; i++) {
+      v1.push_back(1);
+      v2.push_back(1);
+    }
+  v1.pop_back();
+  v2.pop_back();
+  EXPECT_EQ(v1.size(), v2.size());
+  EXPECT_EQ(v1.back(), v2.back());
+}
 
-// // Test the swap() function
-// // TEST(VectorTest, SwapTest) {
-// //   std::vector<int> v1_swap;
-// //   ft::vector<int> v2_swap;
-// //   for (size_t i = 0; i < 3; i++)
-// //     v1_swap.push_back(i);
-// //   for (size_t i = 0; i < 3; i++)
-// //     v2_swap.push_back(i);
-// //   v1.swap(v1_swap);
-// //   v2.swap(v2_swap);
-// //   EXPECT_EQ(v1.size(), v2.size());
-// //   EXPECT_EQ(v1[2], v2[2]);
-// // }
+// Test the insert() function
+TEST(VectorTest, InsertTest) {
+  std::vector<int> v1(10, 5);
+  ft::vector<int> v2(10, 5);
 
-// // Test the clear() function
-// TEST(VectorTest, ClearTest) {
-//   std::vector<int> v1;
-//   ft::vector<int> v2;
-//   for (size_t i = 0; i < 5; i++) {
-//       v1.push_back(1);
-//       v2.push_back(1);
-//     }
-//   v1.clear();
-//   v2.clear();
-//   EXPECT_EQ(v1.size(), v2.size());
-//   EXPECT_TRUE(v1.empty());
-//   EXPECT_TRUE(v2.empty());
-// }
+  std::vector<int>::iterator v1it = v1.begin() + 3;
+  ft::vector<int>::iterator v2it = v2.begin() + 3;
+  v1.insert(v1it, 8);
+  v2.insert(v2it, 8);
+  EXPECT_EQ(v1.size(), v2.size());
+  EXPECT_EQ(v1[3], v2[3]);
+}
 
-// // Test the relational operators
-// TEST(VectorTest, RelationalOperatorsTest) {
-//   std::vector<int> v1;
-//   ft::vector<int> v2;
-//   for (size_t i = 0; i < 5; i++) {
-//       v1.push_back(1);
-//       v2.push_back(1);
-//     }
-//   std::vector<int> v1_compare(5, 15);
-//   std::vector<int> v1_lesser(4, 15);
-//   std::vector<int> v1_greater(6, 15);
-//   ft::vector<int> v2_compare(5, 15);
-//   ft::vector<int> v2_lesser(4, 15);
-//   ft::vector<int> v2_greater(6, 15);
-//   EXPECT_TRUE(v1 == v1_compare && v2 == v2_compare);
-//   EXPECT_TRUE(v1 < v1_greater && v2 < v2_greater);
-//   EXPECT_TRUE(v1 > v1_lesser && v2 > v2_lesser);
-//   EXPECT_TRUE(v1 != v1_lesser && v2 != v2_lesser);
-//   EXPECT_TRUE(v1 >= v1_compare && v2 >= v2_compare);
-//   EXPECT_TRUE(v1 <= v1_compare && v2 <= v2_compare);
-// }
+// Test the erase() function
+TEST(VectorTest, EraseTest) {
+  std::vector<int> v1;
+  ft::vector<int> v2;
+  for (size_t i = 0; i < 5; i++) {
+      v1.push_back(1);
+      v2.push_back(1);
+    }
+  std::vector<int>::iterator v1it = v1.begin() + 2;
+  ft::vector<int>::iterator v2it = v2.begin() + 2;
+  v1.erase(v1it);
+  v2.erase(v2it);
+  EXPECT_EQ(v1.size(), v2.size());
+  EXPECT_EQ(v1[2], v2[2]);
+}
+
+// Test the swap() function
+TEST(VectorTest, SwapTest) {
+  std::vector<int> v1;
+  ft::vector<int> v2;
+
+  std::vector<int> v1_swap;
+  ft::vector<int> v2_swap;
+  for (size_t i = 0; i < 3; i++)
+    v1_swap.push_back(i);
+  for (size_t i = 0; i < 3; i++)
+    v2_swap.push_back(i);
+  v1.swap(v1_swap);
+  v2.swap(v2_swap);
+  EXPECT_EQ(v1.size(), v2.size());
+  EXPECT_EQ(v1[2], v2[2]);
+}
+
+// Test the clear() function
+TEST(VectorTest, ClearTest) {
+  std::vector<int> v1;
+  ft::vector<int> v2;
+  for (size_t i = 0; i < 5; i++) {
+      v1.push_back(1);
+      v2.push_back(1);
+    }
+  v1.clear();
+  v2.clear();
+  EXPECT_EQ(v1.size(), v2.size());
+  EXPECT_TRUE(v1.empty());
+  EXPECT_TRUE(v2.empty());
+}
+
+// Test the relational operators
+TEST(VectorTest, RelationalOperatorsTest) {
+  std::vector<int> v1;
+  ft::vector<int> v2;
+  for (size_t i = 0; i < 5; i++) {
+      v1.push_back(1);
+      v2.push_back(1);
+    }
+  std::vector<int> v1_compare(5, 15);
+  std::vector<int> v1_lesser(4, 15);
+  std::vector<int> v1_greater(6, 15);
+  ft::vector<int> v2_compare(5, 15);
+  ft::vector<int> v2_lesser(4, 15);
+  ft::vector<int> v2_greater(6, 15);
+  EXPECT_TRUE(v1 == v1_compare && v2 == v2_compare);
+  EXPECT_TRUE(v1 < v1_greater && v2 < v2_greater);
+  EXPECT_TRUE(v1 > v1_lesser && v2 > v2_lesser);
+  EXPECT_TRUE(v1 != v1_lesser && v2 != v2_lesser);
+  EXPECT_TRUE(v1 >= v1_compare && v2 >= v2_compare);
+  EXPECT_TRUE(v1 <= v1_compare && v2 <= v2_compare);
+}
