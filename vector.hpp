@@ -3,14 +3,11 @@
 #include <memory>
 #include <limits>
 #include <stdexcept>
-#include <algorithm>
 #include "reverse_iterator.hpp"
 #include "vector_iterator.hpp"
 #include "pair.hpp"
 #include "algorithm.hpp"
 #include "type_traits.hpp"
-#include <iostream>
-#include <vector>
 
 namespace ft
 {
@@ -53,7 +50,7 @@ namespace ft
 		};
 
 	template<class InputIt>
-		vector(InputIt first, typename enable_if<!is_integral<InputIt>::value, InputIt>::type last, const allocator_type& alloc = Allocator()): _alloc(alloc) {
+		vector(InputIt first, InputIt last, const allocator_type& alloc = Allocator()): _alloc(alloc) {
 			size_type n = std::distance(first, last);
 			_begin = _alloc.allocate(n);
 			_last = _begin + n;
