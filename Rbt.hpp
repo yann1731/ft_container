@@ -8,7 +8,7 @@ class Rbt {
 public:
 
 private:
-
+    Node<T1, T2>* root;
 };
 
 #endif

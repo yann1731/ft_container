@@ -13,9 +13,10 @@ public:
 	virtual void clearRightChild(void) = 0;
 	virtual void clearLeftChild(void) = 0;
 	virtual void clearParent(void) = 0;
+	virtual void swapNode(Node<T1, T2>* other) = 0;
 
 protected:
-	ft::pair<T1, T2> keyValuePair;
+	ft::pair<T1, T2> key_value_pair_;
 	Node *right_;
 	Node *left_;
 	Node *parent_;

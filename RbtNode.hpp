@@ -2,6 +2,7 @@
 # define BTREE_HPP
 
 # include "Node.hpp"
+# include <algorithm>
 
 # define BLACK true
 # define RED false
@@ -29,8 +30,15 @@ public:
 	void clearParent(void) {
 		this->parent_ = nullptr;
 	};
+	void swapNode(Node<T1, T2>* other) {
+		std::swap(this->key_value_pair_, other->key_value_pair_);
+		std::swap(this->parent_, other->parent_);
+		std::swap(this->right_, other->right_);
+		std::swap(this->left_, other->left_);
+		std::swap(this->color_, other->color_);
+	};
 private:
-	bool color;
+	bool color_;
 };
 
 #endif
