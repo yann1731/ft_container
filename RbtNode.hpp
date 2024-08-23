@@ -1,36 +1,35 @@
 #ifndef BTREE_HPP
 # define BTREE_HPP
 
-# include "Node.hpp"
 # include <algorithm>
 
 # define BLACK true
 # define RED false
 
 template<class T1, class T2>
-class RbtNode: public Node<T1, T2> {
+class RbtNode{
 public:
-	RbtNode(const ft::pair<T1, T2>& keyValPair, bool color): Node<T1, T2>(keyValPair), color(color) {};
+	RbtNode(ft::pair<T1, T2>& keyValPair, bool color): Node<T1, T2>(keyValPair), color_(color) {};
 
-	void setRightChild(Node<T1, T2>* right) {
-		this->right = right;
+	void setRightChild(RbtNode<T1, T2>* right) {
+		this->right_ = right;
 	};
-	void setLeftChild(Node<T1, T2>* left) {
-		this->left = left;
+	void setLeftChild(RbtNode<T1, T2>* left) {
+		this->left_ = left;
 	};
-	void setParent(Node<T1, T2>* parent) {
+	void setParent(RbtNode<T1, T2>* parent) {
 		this->parent_ = parent;
 	}
 	void clearRightChild(void) {
-		this->right = nullptr;
+		this->right_ = nullptr;
 	};
 	void clearLeftChild(void) {
-		this->left = nullptr;
+		this->left_ = nullptr;
 	};
 	void clearParent(void) {
 		this->parent_ = nullptr;
 	};
-	void swapNode(Node<T1, T2>* other) {
+	void swapNode(RbtNode<T1, T2>* other) {
 		std::swap(this->key_value_pair_, other->key_value_pair_);
 		std::swap(this->parent_, other->parent_);
 		std::swap(this->right_, other->right_);
@@ -39,6 +38,9 @@ public:
 	};
 private:
 	bool color_;
+	RbtNode* parent_;
+	RbtNode* left_;
+	RbtNode* right;
 };
 
 #endif
