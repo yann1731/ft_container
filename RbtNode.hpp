@@ -6,30 +6,40 @@
 # define BLACK true
 # define RED false
 
-template<class T1, class T2>
+template<class Key, class T>
 class RbtNode{
 public:
-	RbtNode(ft::pair<T1, T2>& keyValPair, bool color): Node<T1, T2>(keyValPair), color_(color) {};
+	RbtNode(ft::pair<Key, T>& keyValPair, bool color): key_value_pair_(keyValPair), color_(color), parent_(nullptr), left_(nullptr), right(nullptr) {};
 
-	void setRightChild(RbtNode<T1, T2>* right) {
-		this->right_ = right;
+	void setParent(RbtNode<Key, T>* parent) {
+		this->parent_ = parent;
 	};
-	void setLeftChild(RbtNode<T1, T2>* left) {
+
+	void setLeftChild(RbtNode<Key, T>* left) {
 		this->left_ = left;
 	};
-	void setParent(RbtNode<T1, T2>* parent) {
-		this->parent_ = parent;
-	}
-	void clearRightChild(void) {
-		this->right_ = nullptr;
+
+	void setRightChild(RbtNode<Key, T>* right) {
+		this->right_ = right;
 	};
-	void clearLeftChild(void) {
-		this->left_ = nullptr;
-	};
+
 	void clearParent(void) {
 		this->parent_ = nullptr;
 	};
-	void swapNode(RbtNode<T1, T2>* other) {
+
+	void clearLeftChild(void) {
+		this->left_ = nullptr;
+	};
+
+	void clearRightChild(void) {
+		this->right_ = nullptr;
+	};
+
+	void clearTree(void) {//to be implemented
+
+	};
+
+	void swapNode(RbtNode<Key, T>* other) {
 		std::swap(this->key_value_pair_, other->key_value_pair_);
 		std::swap(this->parent_, other->parent_);
 		std::swap(this->right_, other->right_);
@@ -37,6 +47,7 @@ public:
 		std::swap(this->color_, other->color_);
 	};
 private:
+	ft::pair<Key, T> key_value_pair_;
 	bool color_;
 	RbtNode* parent_;
 	RbtNode* left_;
