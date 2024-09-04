@@ -9,7 +9,7 @@
 template<class Key, class T>
 class RbtNode{
 public:
-	RbtNode(ft::pair<Key, T>& keyValPair, bool color): key_value_pair_(keyValPair), color_(color), parent_(nullptr), left_(nullptr), right(nullptr) {};
+	RbtNode(ft::pair<Key, T>& keyValPair, bool color = RED): key_value_pair_(keyValPair), color_(color), parent_(nullptr), left_(nullptr), right(nullptr) {};
 
 	void setParent(RbtNode<Key, T>* parent) {
 		this->parent_ = parent;
